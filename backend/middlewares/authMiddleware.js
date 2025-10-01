@@ -18,12 +18,3 @@ module.exports = function(req, res, next) {
         res.status(401).json({ msg: 'Token is not valid' });
     }
 };
-```
-
-#### D. Environment Variables (`.env` file)
-
-For security, you must never hardcode sensitive information like your MongoDB connection string or your JWT secret key. Create a `.env` file in the root of your backend project.
-
-```
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=a_very_secret_and_long_string
