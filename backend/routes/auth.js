@@ -5,10 +5,12 @@ const auth = require('../middlewares/authMiddleware'); // Our custom auth middle
 
 // @route   POST /api/auth/register
 // @desc    Register a new user
+//create new user
 router.post('/register', authController.registerUser);
 
 // @route   POST /api/auth/login
 // @desc    Authenticate user & get token
+//login
 router.post('/login', authController.loginUser);
 
 // @route   GET /api/auth/me

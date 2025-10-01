@@ -1,16 +1,17 @@
 const mongoose = require('mongoose');
-const mongoURI = "mongodb://localhost:27017/Nyaydeep";
+require('dotenv').config();
 
-async function connectToMongo() {
-    try {
-        await mongoose.connect(mongoURI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-        console.log("Connected to MongoDB successfully");
-    } catch (err) {
-        console.error("Error connecting to MongoDB:", err);
-    }
-}
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('MongoDB connected');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    process.exit(1); // Exit process if DB fails to connect
+  }
+};
 
-module.exports = connectToMongo;
+module.exports = connectDB;
