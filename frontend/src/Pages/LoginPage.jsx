@@ -8,7 +8,13 @@ const LoginPage = () => {
   const host = "http://localhost:5000";
 
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [signupData, setSignupData] = useState({ name: "", email: "", username: "", password: "" });
+  const [signupData, setSignupData] = useState({
+    name: "",
+    email: "",
+    username: "",
+    password: "",
+    passwordConfirm: "",
+  });
 
   // Handle input changes
   const handleLoginChange = (e) => {
@@ -51,7 +57,7 @@ const LoginPage = () => {
       const response = await fetch(`${host}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(signupData),
+        body: JSON.stringify(signupData), // Now includes passwordConfirm
       });
 
       const json = await response.json();
@@ -59,10 +65,9 @@ const LoginPage = () => {
 
       if (json.token) {
         localStorage.setItem("token", json.token); // Save token
-        alert("Registration successful! Please log in.");
-        setIsRightPanelActive(false); // Switch to login panel
+        navigate("/verify-otp"); // Redirect to VerifyOtp page
       } else {
-        alert("Email already exists or input is invalid");
+        alert(json.message || "Email already exists or input is invalid");
       }
     } catch (error) {
       console.error("Error signing up:", error);
@@ -79,16 +84,47 @@ const LoginPage = () => {
         <div className="form-container sign-up-container">
           <form onSubmit={handleSignupSubmit}>
             <h1>Create Account</h1>
-            <div className="social-container">
-              <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
-              <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
-              <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
-            </div>
             <span>or use your email for registration</span>
-            <input type="text" name="name" placeholder="Name" value={signupData.name} onChange={handleSignupChange} required />
-            <input type="email" name="email" placeholder="Email" value={signupData.email} onChange={handleSignupChange} required />
-            <input type="text" name="username" placeholder="Username" value={signupData.username} onChange={handleSignupChange} required />
-            <input type="password" name="password" placeholder="Password" value={signupData.password} onChange={handleSignupChange} required />
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              value={signupData.name}
+              onChange={handleSignupChange}
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={signupData.email}
+              onChange={handleSignupChange}
+              required
+            />
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={signupData.username}
+              onChange={handleSignupChange}
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={signupData.password}
+              onChange={handleSignupChange}
+              required
+            />
+            <input
+              type="password"
+              name="passwordConfirm"
+              placeholder="Confirm Password"
+              value={signupData.passwordConfirm}
+              onChange={handleSignupChange}
+              required
+            />
             <button type="submit">Sign Up</button>
           </form>
         </div>
@@ -97,14 +133,23 @@ const LoginPage = () => {
         <div className="form-container sign-in-container">
           <form onSubmit={handleLoginSubmit}>
             <h1>Sign in</h1>
-            <div className="social-container">
-              <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
-              <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
-              <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
-            </div>
             <span>or use your account</span>
-            <input type="email" name="email" placeholder="Email" value={loginData.email} onChange={handleLoginChange} required />
-            <input type="password" name="password" placeholder="Password" value={loginData.password} onChange={handleLoginChange} required />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={loginData.email}
+              onChange={handleLoginChange}
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={loginData.password}
+              onChange={handleLoginChange}
+              required
+            />
             <a href="#">Forgot your password?</a>
             <button type="submit">Sign In</button>
           </form>
