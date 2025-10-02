@@ -1,12 +1,15 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import LoginPage from "./Pages/LoginPage";
 import HomePage from "./Pages/Home";
+import ProgressTracker from "./components/ProgressTracker";
+import Leaderboard from "./components/Leaderboard";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/progress" element={<ProgressTracker />} />
+      <Route path="/leaderboard" element={<Leaderboard />} />
     </Routes>
   );
 }
