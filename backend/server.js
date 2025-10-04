@@ -6,7 +6,7 @@ require("./jobs/dailyFactCron"); // this starts the cron automatically
 
 const connectDB = require('./db'); // Import DB connection
 const authRoutes = require('./routes/auth');
-const factRoutes = require('./routes/dailyFacts'); // ✅ add fact routes
+const factRoutes = require('./routes/dailyFacts'); 
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/facts', factRoutes); // ✅ mount fact routes
+app.use('/api/facts', factRoutes); 
 
 // Start server
 const PORT = process.env.PORT || 5000;

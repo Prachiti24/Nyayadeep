@@ -75,7 +75,7 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// 🔐 Encrypt password before saving
+// Encrypt password before saving
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
@@ -84,20 +84,20 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// ⏰ Track password change timestamp
+// Track password change timestamp
 userSchema.pre("save", function (next) {
   if (!this.isModified("password") || this.isNew) return next();
   this.passwordChangedAt = Date.now() - 1000;
   next();
 });
 
-// 🟢 Exclude inactive users from queries
+// Exclude inactive users from queries
 userSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } });
   next();
 });
 
-// ✅ Compare passwords
+// Compare passwords
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
@@ -105,7 +105,7 @@ userSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-// 🔄 Check if password was changed after JWT issued
+// Check if password was changed after JWT issued
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
@@ -117,7 +117,7 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   return false;
 };
 
-// 🔑 Generate password reset token
+// Generate password reset token
 userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString("hex");
   this.passwordResetToken = crypto
