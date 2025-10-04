@@ -2,6 +2,13 @@ import React, { useEffect, useState } from "react";
 
 export default function ProfilePage() {
     const [user, setUser] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [formData, setFormData] = useState({
+      name: "",
+      username: "",
+      email: "",
+      telegramId: "",
+    });
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -19,6 +26,12 @@ export default function ProfilePage() {
         const data = await res.json();
         if (data.status === "success") {
           setUser(data.data.user); // save user data
+          setFormData({
+            name: data.data.user.name || "",
+            username: data.data.user.username || "",
+            email: data.data.user.email || "",
+            telegramId: data.data.user.telegramId || "",
+          });
         } else {
           console.error("Failed to fetch user data", data);
         }
@@ -29,6 +42,37 @@ export default function ProfilePage() {
 
     fetchUserData();
   }, []);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = async () => {
+    const token = localStorage.getItem("token"); 
+    if (!token) return;
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/update", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.status === "success") {
+        setUser(data.data.user);
+        setShowModal(false);
+        alert("Profile updated successfully!");
+      } else {
+        alert(data.message || "Update failed");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong");
+    }
+  };
+
   return (
     <div className="container">
       <div className="main-body">
@@ -36,10 +80,7 @@ export default function ProfilePage() {
         <nav aria-label="breadcrumb" className="main-breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <a href="index.html">Home</a>
-            </li>
-            <li className="breadcrumb-item">
-              <a href="javascript:void(0)">User</a>
+              <a href="/home">Home</a>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               User Profile
@@ -68,7 +109,7 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* Social Links */}
+            {/* Achievement */}
             <div className="card mt-3">
               <ul className="list-group list-group-flush">
                 <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
@@ -130,14 +171,12 @@ export default function ProfilePage() {
                 <hr />
                 <div className="row">
                   <div className="col-sm-12">
-                    <a
+                    <button
                       className="btn btn-info"
-                      target="_blank"
-                      rel="noreferrer"
-                      href=""
+                      onClick={() => setShowModal(true)}
                     >
                       Edit
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -282,6 +321,61 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+      {/* Modal for Editing */}
+      {showModal && (
+        <div className="modal fade show d-block" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Edit Profile</h5>
+                <button className="btn-close" onClick={() => setShowModal(false)}></button>
+              </div>
+              <div className="modal-body">
+                <div className="mb-3">
+                  <label className="form-label">Name</label>
+                  <input
+                    className="form-control"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Username</label>
+                  <input
+                    className="form-control"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Email</label>
+                  <input
+                    className="form-control"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Telegram ID</label>
+                  <input
+                    className="form-control"
+                    name="telegramId"
+                    value={formData.telegramId}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
+                <button className="btn btn-primary" onClick={handleSave}>Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

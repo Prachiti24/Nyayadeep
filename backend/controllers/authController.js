@@ -369,3 +369,37 @@ exports.isLoggedIn = async (req, res, next) => {
 };
 
 
+// Update user info
+exports.updateUserProfile = catchAsync(async (req, res, next) => {
+  const { name, username, email, telegramId } = req.body;
+  const userId = req.user._id;
+
+  // Check if email or username is already used by someone else
+  if (email) {
+    const existingEmail = await User.findOne({ email, _id: { $ne: userId } });
+    if (existingEmail) {
+      return next(new AppError("Email is already in use", 400));
+    }
+  }
+
+  if (username) {
+    const existingUsername = await User.findOne({ username, _id: { $ne: userId } });
+    if (existingUsername) {
+      return next(new AppError("Username is already in use", 400));
+    }
+  }
+
+  // Update fields
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { name, username, email, telegramId },
+    { new: true, runValidators: true }
+  );
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      user: updatedUser,
+    },
+  });
+});
