@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 require("./jobs/dailyFactCron"); // this starts the cron automatically
+require('./bot');
 
 
 const connectDB = require('./db'); // Import DB connection

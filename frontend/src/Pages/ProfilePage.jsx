@@ -1,18 +1,61 @@
 import React, { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 export default function ProfilePage() {
-    const [user, setUser] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [formData, setFormData] = useState({
-      name: "",
-      username: "",
-      email: "",
-      telegramId: "",
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    username: "",
+    email: "",
+    telegramId: "",
+  });
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [passwordData, setPasswordData] = useState({
+    password: "",
+    passwordConfirm: "",
+  });
+
+  const handlePasswordChange = (e) => {
+    setPasswordData({ ...passwordData, [e.target.name]: e.target.value });
+  };
+
+  const handleResetPassword = async () => {
+  if (passwordData.password !== passwordData.passwordConfirm) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch("http://localhost:5000/api/auth/resetPassword", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(passwordData),
     });
+
+    const data = await res.json();
+    if (data.status === "success") {
+      alert("Password updated successfully!");
+      setShowResetModal(false);
+      localStorage.setItem("token", data.token); // update JWT
+    } else {
+      alert(data.message || "Reset failed");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong");
+  }
+};
+
+
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const token = localStorage.getItem("token"); 
+      const token = localStorage.getItem("token");
       if (!token) return;
 
       try {
@@ -47,8 +90,14 @@ export default function ProfilePage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleLogout = async () => {
+    localStorage.removeItem("token");
+    navigate("/")
+  };
+
+
   const handleSave = async () => {
-    const token = localStorage.getItem("token"); 
+    const token = localStorage.getItem("token");
     if (!token) return;
     try {
       const res = await fetch("http://localhost:5000/api/auth/update", {
@@ -135,7 +184,21 @@ export default function ProfilePage() {
                 </li>
               </ul>
             </div>
+            <div className="row mt-3">
+              <div className="col-sm-6">
+                <button className="btn btn-danger w-100" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
+              <div className="col-sm-6">
+                <button className="btn btn-warning w-100" onClick={() => setShowResetModal(true)}>
+                  Reset Password
+                </button>
+              </div>
+            </div>
+
           </div>
+
 
           {/* Main Profile Info */}
           <div className="col-md-8">
@@ -318,6 +381,7 @@ export default function ProfilePage() {
               </div>
             </div>
             {/* End Status */}
+
           </div>
         </div>
       </div>
@@ -376,6 +440,45 @@ export default function ProfilePage() {
           </div>
         </div>
       )}
+      {showResetModal && (
+        <div className="modal fade show d-block" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Reset Password</h5>
+                <button className="btn-close" onClick={() => setShowResetModal(false)}></button>
+              </div>
+              <div className="modal-body">
+                <div className="mb-3">
+                  <label className="form-label">New Password</label>
+                  <input
+                    className="form-control"
+                    type="password"
+                    name="password"
+                    value={passwordData.password}
+                    onChange={handlePasswordChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Confirm Password</label>
+                  <input
+                    className="form-control"
+                    type="password"
+                    name="passwordConfirm"
+                    value={passwordData.passwordConfirm}
+                    onChange={handlePasswordChange}
+                  />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-secondary" onClick={() => setShowResetModal(false)}>Cancel</button>
+                <button className="btn btn-primary" onClick={handleResetPassword}>Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
