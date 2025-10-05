@@ -10,4 +10,6 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 router.get('/getUser', authController.protect, authController.getUserData);
 router.patch("/update", authController.protect, authController.updateUserProfile);
 router.patch("/resetPassword",authController.protect, authController.resetPassword);
+router.patch("/addXP", authController.protect, authController.addXP);
+
 module.exports = router;
