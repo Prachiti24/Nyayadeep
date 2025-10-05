@@ -1,5 +1,4 @@
 //email mis to be change from env while sending mail
-
 const jwt = require("jsonwebtoken");
 const catchAsync = require("./../utils/catchAsync");
 const AppError = require("../utils/appError");
@@ -47,25 +46,19 @@ const createSendToken = (user, statusCode, req, res) => {
 
 exports.signup = catchAsync(async (req, res, next) => {
   const { username, name, email, password, passwordConfirm } = req.body;
-
-  // Validate password confirmation
   if (password !== passwordConfirm) {
     return next(new AppError("Passwords do not match!", 400));
   }
-
-  // Check if user already exists
   const existingUser = await User.findOne({ email });
 
   if (existingUser) {
     return next(new AppError("Duplicate Email Found.", 401));
   }
 
-  const Emailotp = Math.floor(100000 + Math.random() * 900000).toString(); // Generates a 6-digit OTP
-
-  // Hash the OTP
+  const Emailotp = Math.floor(100000 + Math.random() * 900000).toString();
   const hashedOtp = crypto.createHash("sreya123").update(Emailotp).digest("hex");
 
-  const EmailotpExpires = Date.now() + 10 * 60 * 1000; // OTP expires in 10 minutes
+  const EmailotpExpires = Date.now() + 10 * 60 * 1000;
   const randomString = generateRandomString(6);
   const modifiedEmail = `notverified${randomString}${email}`;
 
@@ -79,7 +72,6 @@ exports.signup = catchAsync(async (req, res, next) => {
     EmailotpExpires,
   });
 
-  // Send OTP via email
   const message = `Your OTP code is ${Emailotp}. It will expire in 10 minutes.`;
   console.log(message);
 
@@ -90,7 +82,6 @@ exports.signup = catchAsync(async (req, res, next) => {
       html: otpVerificationEmail(name, Emailotp)
     });
   } catch (err) {
-    // Cleanup if email fails
     newUser.Emailotp = undefined;
     newUser.EmailotpExpires = undefined;
     await newUser.save({ validateBeforeSave: false });
@@ -108,8 +99,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.verifyOtp = catchAsync(async (req, res, next) => {
   let token;
-
-  // Get token from headers or cookies
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -124,23 +113,16 @@ exports.verifyOtp = catchAsync(async (req, res, next) => {
       new AppError("You are not logged in! Please log in to get access.", 401)
     );
   }
-
-  // Verify JWT
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
   );
-
-  // Hash incoming OTP
   const hashedOtp = crypto
     .createHash("sreya123")
     .update(req.body.Emailotp)
     .digest("hex");
 
-  // Extract the actual email (remove notverified prefix)
   const realEmail = decoded.email.slice(17);
-
-  // Find matching user
   let user = await User.findOne({
     email: decoded.email,
     Emailotp: hashedOtp,
@@ -152,28 +134,22 @@ exports.verifyOtp = catchAsync(async (req, res, next) => {
       new AppError("Invalid OTP or OTP expired. Please try again.", 401)
     );
   }
-
-  // Update user email & clear OTP
   user.email = realEmail;
   user.Emailotp = undefined;
   user.EmailotpExpires = undefined;
   user = await user.save({ validateBeforeSave: false });
-
-  // Return success
   createSendToken(user, 200, req, res);
 });
 
 
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  // 1) Check if email and password exist
   if (!email) {
     return next(new AppError("Please provide email!", 400));
   }
   if (!email || !password) {
     return next(new AppError("Please provide email and password!", 400));
   }
-  // 2) Check if user exists && password is correct
   var user;
   if (email) {
     user = await User.findOne({ email }).select("+password");
@@ -181,7 +157,6 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Incorrect email or password", 401));
   }
-  // 3) If everything ok, send token to client
   createSendToken(user, 200, req, res);
 });
 
@@ -250,24 +225,19 @@ exports.getUserData = async (req, res, next) => {
 
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
-  // 1) Get current user from JWT
   const user = await User.findById(req.user.id).select("+password");
   if (!user) {
     return next(new AppError("User not found", 404));
   }
 
-  // 2) Check if passwords match
   const { password, passwordConfirm } = req.body;
   if (password !== passwordConfirm) {
     return next(new AppError("Passwords do not match", 400));
   }
 
-  // 3) Update password
   user.password = password;
   user.passwordConfirm = passwordConfirm;
-  await user.save(); // pre-save hooks will hash password
-
-  // 4) Log the user in again, send JWT
+  await user.save();
   createSendToken(user, 200, req, res);
 });
 
@@ -356,12 +326,9 @@ exports.isLoggedIn = async (req, res, next) => {
 };
 
 
-// Update user info
 exports.updateUserProfile = catchAsync(async (req, res, next) => {
   const { name, username, email, telegramId } = req.body;
   const userId = req.user._id;
-
-  // Check if email or username is already used by someone else
   if (email) {
     const existingEmail = await User.findOne({ email, _id: { $ne: userId } });
     if (existingEmail) {
@@ -375,8 +342,6 @@ exports.updateUserProfile = catchAsync(async (req, res, next) => {
       return next(new AppError("Username is already in use", 400));
     }
   }
-
-  // Update fields
   const updatedUser = await User.findByIdAndUpdate(
     userId,
     { name, username, email, telegramId },

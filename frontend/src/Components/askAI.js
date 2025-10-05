@@ -1,17 +1,22 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import toast from "react-hot-toast";
+// askAI.js
+export async function askAI(prompt) {
+  try {
+    const response = await fetch("http://localhost:5000/api/ask", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ prompt }),
+    });
 
-export const askAI = async (question) => {
-    const genAI = new GoogleGenerativeAI(process.env.API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-    const prompt = question;
-    try {
-        const result = await model.generateContent(prompt);
-        console.log(result.response.text());
-        return result.response.text();
-    } catch (error) {
-        toast.error("Error: " + error.message);
-        return "error";
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-};
+
+    const data = await response.json();
+    return data.reply;
+  } catch (err) {
+    console.error("askAI error:", err);
+    throw err;
+  }
+}

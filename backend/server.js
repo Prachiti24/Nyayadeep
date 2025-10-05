@@ -1,14 +1,14 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-require("./jobs/dailyFactCron"); // this starts the cron automatically
+require("./jobs/dailyFactCron");
 require('./bot');
 
 
-const connectDB = require('./db'); // Import DB connection
+const connectDB = require('./db');
 const authRoutes = require('./routes/auth');
 const factRoutes = require('./routes/dailyFacts'); 
-
+const crosswordRoutes = require('./routes/crosswordroute')
 const app = express();
 
 // Connect to MongoDB
@@ -21,6 +21,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/facts', factRoutes); 
+app.use("/api/crosswords", crosswordRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;

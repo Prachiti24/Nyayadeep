@@ -1,11 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-import LoginPage from "./Pages/LoginPage";
+import LoginPage from "./Pages/Login/LoginPage";
 import HomePage from "./Pages/Home";
-import ChatbotPage from "./Pages/ChatbotPage";
-import VerifyOtp from "./Pages/VerifyOtp";
+import ChatbotPage from "./Pages/Chatbot/ChatbotPage";
+import VerifyOtp from "./Pages/Login/VerifyOtp";
 import ProfilePage from "./Pages/ProfilePage";
 import LandingPage from "./Pages/LandingPage";
 import PrivateRoute from "./Components/PrivateRoute";
+import CrosswordGame from "./Pages/Games/Crossword";
 
 function App() {
   return (
@@ -21,6 +22,14 @@ function App() {
         element={
           <PrivateRoute>
             <HomePage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/crossword"
+        element={
+          <PrivateRoute>
+            <CrosswordGame />
           </PrivateRoute>
         }
       />
