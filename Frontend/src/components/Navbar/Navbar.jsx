@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaHighlighter, FaTextHeight } from "react-icons/fa";
 import { IoMdClose, IoMdMenu } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import samvidhanPathLogo from "../../assets/Nyadeep_logo.png";
+import samvidhanPathLogo from "../../assets/samvidhanpath.png";
 import GoogleTranslate from "../Language";
 import TextToSpeech from "../TexttoSpeach";
 import ThemeChange from "../Themechange";
@@ -25,6 +25,7 @@ const NavbarMenu = [
     path: "/explore",
     submenu: [
       { id: 1, title: "Case Studies", path: "/casestudies" },
+      // ✅ Removed Quiz link
     ],
   },
   {
@@ -51,7 +52,12 @@ const NavbarMenu = [
     ],
   },
   { id: 6, title: "E-Books", path: "/ebooks" },
-  { id: 7, title: "Games", path: "/games" },
+  {
+    id: 7,
+    title: "Games",
+    path: "/games",
+    // ✅ Removed Crossword, Quiz, Word Search, Puzzle
+  },
   { id: 8, title: "Contact Us", path: "/contact" },
 ];
 
@@ -62,16 +68,21 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const toggleMenu = () => setIsOpen(!isOpen);
-  const handleMenuClick = (path) => navigate(path);
-  const toggleSubmenu = (menuId) =>
-    setActiveMenu(activeMenu === menuId ? null : menuId);
-  // const Signupclick = () => navigate("/sign-up");
-  // Example if your friend's app runs locally
-  const Signupclick = () => {
-    window.location.href = "http://localhost:3000/login";
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
   };
 
+  const handleMenuClick = (path) => {
+    navigate(path);
+  };
+
+  const toggleSubmenu = (menuId) => {
+    setActiveMenu(activeMenu === menuId ? null : menuId);
+  };
+
+  const Signupclick = () => {
+    navigate("/sign-up");
+  };
 
   return (
     <>
@@ -79,20 +90,16 @@ const Navbar = () => {
       <div className="text-black shadow-lg bg-yellow-50 dark:bg-gray-800 dark:text-white">
         <div className="container flex items-center justify-between px-2 text-black bg-white lg:px-5 dark:bg-gray-800 dark:text-white">
           {/* Accessibility Icons */}
-          <div className="flex items-center space-x-4 text-gray-700 bg-white dark:bg-gray-800 dark:text-white">
-            <FaHighlighter
-              size={24}
-              className="cursor-pointer p-1 rounded hover:bg-yellow-200 dark:hover:bg-yellow-500 transition"
-              title="Highlight Text"
-            />
+          <div className="flex items-center space-x-4 text-gray-700 bg-white dark:bg-gray-800 dark:text-white" >
+            <FaHighlighter size={24} className="cursor-pointer hover:text-black" title="Highlight Text" />
             <FaTextHeight
               size={24}
-              className="cursor-pointer p-1 rounded hover:bg-yellow-200 dark:hover:bg-yellow-500 transition"
+              className="cursor-pointer hover:text-black"
               title="Text Resize"
               onClick={() => setShowTextResizer(true)}
             />
-            <TextToSpeech />
-            <ThemeChange />
+            <TextToSpeech /> 
+            <ThemeChange/>
           </div>
           {/* Google Translate */}
           <GoogleTranslate />
@@ -106,19 +113,19 @@ const Navbar = () => {
             <div className="text-xl font-semibold">Text Resizer</div>
             <div className="flex mt-4 space-x-2">
               <button
-                onClick={() => (document.documentElement.className = "text-sm")}
+                onClick={() => document.documentElement.className = "text-sm"}
                 className="px-4 py-2 text-sm bg-gray-200 rounded hover:bg-gray-300"
               >
                 Small
               </button>
               <button
-                onClick={() => (document.documentElement.className = "text-base")}
+                onClick={() => document.documentElement.className = "text-base"}
                 className="px-4 py-2 text-sm bg-gray-200 rounded hover:bg-gray-300"
               >
                 Medium
               </button>
               <button
-                onClick={() => (document.documentElement.className = "text-lg")}
+                onClick={() => document.documentElement.className = "text-lg"}
                 className="px-4 py-2 text-sm bg-gray-200 rounded hover:bg-gray-300"
               >
                 Large
@@ -142,15 +149,15 @@ const Navbar = () => {
         >
           {/* Logo section */}
           <div className="flex flex-row gap-3">
-            <img className="w-40 h-40" src={samvidhanPathLogo} alt="logo" />
+            <img className="w-auto h-20" src={samvidhanPathLogo} alt="logo" />
             <div className="flex flex-col justify-center items-left">
-              <h1 className="text-yellow-500 text-2xl font-bold">Nyaya-deep</h1>
-              <h1 className="text-2xl font-bold">न्यायदिप</h1>
+              <h1 className="text-2xl font-bold">Nyaya-deep</h1>
+              <h1 className="text-2xl font-bold">न्यायदिप</h1> 
+
             </div>
           </div>
-
-          {/* Desktop Menu */}
-          <div className="hidden lg:block text-black bg-white dark:bg-gray-800 dark:text-white">
+          {/* Menu section */}
+          <div className="hidden text-black bg-white lg:block dark:bg-gray-800 dark:text-white">
             <ul className="flex items-center gap-6 text-black bg-white dark:bg-gray-800 dark:text-white">
               {NavbarMenu.map((menu) => (
                 <li
@@ -161,12 +168,10 @@ const Navbar = () => {
                 >
                   <button
                     onClick={() => handleMenuClick(menu.path)}
-                    className="relative inline-block px-3 py-2 font-semibold transition duration-300 hover:text-yellow-600"
+                    className="relative inline-block px-3 py-2 dark:hover:bg-gray-800 hover:text-secondary"
                   >
                     {menu.title}
-                    <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-yellow-500 transition-all duration-300 group-hover:w-full"></span>
                   </button>
-
                   {/* Dropdown for submenu */}
                   <AnimatePresence>
                     {menu.submenu && activeMenu === menu.id && (
@@ -175,7 +180,7 @@ const Navbar = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute left-0 w-48 mt-2 text-black bg-white border shadow-lg top-full dark:bg-gray-800 dark:text-white rounded"
+                        className="absolute left-0 w-48 mt-2 text-black bg-white border shadow-lg top-full dark:bg-gray-800 dark:text-white"
                       >
                         {menu.submenu.map((sub, index) => (
                           <motion.li
@@ -187,7 +192,7 @@ const Navbar = () => {
                           >
                             <button
                               onClick={() => handleMenuClick(sub.path)}
-                              className="block w-full px-4 py-2 text-left font-semibold hover:bg-yellow-200 hover:text-black rounded"
+                              className="block w-full px-4 py-2 text-left dark:hover:bg-gray-800 hover:bg-gray-100 hover:text-secondary"
                             >
                               {sub.title}
                             </button>
@@ -198,16 +203,10 @@ const Navbar = () => {
                   </AnimatePresence>
                 </li>
               ))}
-              <button
-                className="px-4 py-2 text-white bg-yellow-500 rounded-lg font-bold hover:bg-yellow-600"
-                onClick={Signupclick}
-              >
-                Sign Up
-              </button>
+              <button className="primary-btn" onClick={Signupclick}>Sign Up</button>
             </ul>
           </div>
-
-          {/* Mobile Menu */}
+          {/* Mobile Hamburger menu section */}
           <div className="static">
             <motion.div
               whileHover={{ scale: 1.1 }}
@@ -226,9 +225,9 @@ const Navbar = () => {
               initial={{ x: "100%" }}
               animate={{ x: isOpen ? "0%" : "100%" }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="fixed top-0 right-0 z-50 flex flex-col w-4/5 h-screen gap-6 px-6 py-8 text-white bg-gray-900 shadow-lg"
+              className="fixed top-0 right-0 z-50 flex flex-col w-4/5 h-screen gap-6 px-6 py-8 text-white bg-gray-900 shadow-lg "
             >
-              <ul className="flex flex-col gap-4 mt-44">
+              <ul className="flex flex-col gap-4 mt-44 ">
                 {NavbarMenu.map((menu) => (
                   <li
                     key={menu.id}
@@ -238,7 +237,7 @@ const Navbar = () => {
                   >
                     <button
                       onClick={() => handleMenuClick(menu.path)}
-                      className="block px-3 py-2 text-lg font-semibold hover:bg-yellow-500 rounded"
+                      className="block px-3 py-2 text-lg hover:text-yellow-500"
                     >
                       {menu.title}
                     </button>
@@ -249,7 +248,7 @@ const Navbar = () => {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -10 }}
                           transition={{ duration: 0.2 }}
-                          className="left-0 w-48 mt-2 text-white bg-gray-900 shadow-lg md:bg-white md:absolute top-full rounded"
+                          className="left-0 w-48 mt-2 text-white bg-gray-900 shadow-lg md:bg-white md:absolute top-full"
                         >
                           {menu.submenu.map((sub, index) => (
                             <motion.li
@@ -261,7 +260,7 @@ const Navbar = () => {
                             >
                               <button
                                 onClick={() => handleMenuClick(sub.path)}
-                                className="block w-full px-4 py-2 text-left font-semibold hover:bg-yellow-500 rounded"
+                                className="block w-full px-4 py-2 text-left dark:hover:bg-gray-800 md:hover:bg-gray-100 hover:text-secondary"
                               >
                                 {sub.title}
                               </button>
@@ -273,10 +272,7 @@ const Navbar = () => {
                   </li>
                 ))}
               </ul>
-              <button
-                className="px-4 py-2 bg-yellow-500 rounded-md font-bold hover:bg-yellow-600"
-                onClick={Signupclick}
-              >
+              <button className="px-4 py-2 bg-yellow-500 rounded-md hover:bg-yellow-600" onClick={Signupclick}>
                 Sign Up
               </button>
             </motion.div>

@@ -34,6 +34,7 @@ import Learn from "./components/pages/Learn";
 import Terms from "./components/pages/terms";
 import ScrollToTop from "./components/Scrolltotop";
 import Services from "./components/Services/Services";
+import SignUp from "./components/sign-up";
 import Signin from "./components/signin";
 import Subscribe from "./components/Subscribe/Subscribe";
 
@@ -91,7 +92,7 @@ const App = () => {
             <Route path="/signin" element={<Signin />} />
             <Route path="/translate" element={<GoogleTranslate />} />
             <Route path="/explore/constitution-simplified" element={<ConstitutionSimplified />} />
-            {/* <Route path="/sign-up" element={<SignUp />} /> */}
+            <Route path="/sign-up" element={<SignUp />} />
           </Routes>
         </main>
         <ScrollToTop />

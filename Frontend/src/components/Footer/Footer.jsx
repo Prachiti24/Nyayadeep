@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { FaInstagram, FaWhatsapp, FaYoutube } from "react-icons/fa";
 import { TbWorldWww } from "react-icons/tb";
 import { Link } from "react-router-dom"; // React Router Link
-import logo from "../../assets/Nyadeep_logo.png"; // Path to logo image
+import logo from "../../assets/samvidhanpath.png"; // Path to logo image
 
 const Footer = () => {
   // Scroll to top when a footer link is clicked
