@@ -7,7 +7,7 @@ import ProfilePage from "./Pages/ProfilePage";
 import LandingPage from "./Pages/LandingPage";
 import PrivateRoute from "./Components/PrivateRoute";
 import CrosswordGame from "./Pages/Games/Crossword";
-
+import WordSearchGame from "./Pages/Games/WordSearch";
 function App() {
   return (
     <Routes>
@@ -22,6 +22,14 @@ function App() {
         element={
           <PrivateRoute>
             <HomePage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/wordsearch"
+        element={
+          <PrivateRoute>
+            <WordSearchGame />
           </PrivateRoute>
         }
       />
