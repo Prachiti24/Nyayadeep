@@ -24,19 +24,6 @@ const sendEmail = async options => {
     console.log("success!");
     response.end();
   });
-
-
-  // 2) Define the email options
-  // const mailOptions = {
-  //   from: 'Jonas Schmedtmann <hello@jonas.io>',
-  //   to: options.email,
-  //   subject: options.subject,
-  //   text: options.message
-  //   // html:
-  // };
-
-  // 3) Actually send the email
-  // await transporter.sendMail(mailOptions);
 };
 
 module.exports = sendEmail;

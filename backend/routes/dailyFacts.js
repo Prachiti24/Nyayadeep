@@ -12,6 +12,7 @@ const {
 // -----------------------------
 // Add a new fact
 // -----------------------------
+
 router.post("/", async (req, res) => {
   try {
     const { fact_text, source, related_unit_id, is_active } = req.body;
@@ -34,6 +35,7 @@ router.post("/", async (req, res) => {
 // -----------------------------
 // Get all facts
 // -----------------------------
+
 router.get("/", async (req, res) => {
   try {
     const facts = await Fact.find();
@@ -48,6 +50,7 @@ router.get("/", async (req, res) => {
 // --------------------
 // Send a daily Fact 
 // --------------------
+
 router.post("/send", async (req, res) => {
   try {
     // Get all active users
@@ -81,10 +84,10 @@ router.post("/send", async (req, res) => {
           html: dailyFactEmail(user, randomFact),
         });
 
-        console.log(`✅ Email sent to ${user.email}`);
+        console.log(` Email sent to ${user.email}`);
         successCount++;
       } catch (err) {
-        console.error(`❌ Failed to send email to ${user.email}:`, err.message);
+        console.error(` Failed to send email to ${user.email}:`, err.message);
         failCount++;
       }
     }
