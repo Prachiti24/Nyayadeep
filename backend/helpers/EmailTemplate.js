@@ -87,11 +87,11 @@ const otpVerificationEmail = (name, otp) => {
     <body>
         <div class="container">
             <div class="welcome-header">
-                <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 500;">Welcome to SmartLearn</h1>
+                <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 500;">Welcome to Nyaydeep</h1>
             </div>
             <div class="content">
                 <p style="font-size: 16px; margin-bottom: 20px;">Dear ${name},</p>
-                <p style="font-size: 16px; margin-bottom: 30px;">Thank you for creating an account with SmartLearn. Please use the verification code below to complete your registration:</p>
+                <p style="font-size: 16px; margin-bottom: 30px;">Thank you for creating an account with Nyaydeep. Please use the verification code below to complete your registration:</p>
                 <div class="otp-container">
                     <div class="otp-text">${otp}</div>
                 </div>
@@ -102,14 +102,14 @@ const otpVerificationEmail = (name, otp) => {
                         <li style="margin-bottom: 8px;">Never share this code with anyone</li>
                     </ul>
                 </div>
-                <p style="font-size: 16px; margin: 30px 0 0 0;">Thanks,<br>The SmartLearn Team</p>
+                <p style="font-size: 16px; margin: 30px 0 0 0;">Thanks,<br>The Nyaydeep Team</p>
             </div>
             <div class="footer">
                 <div class="automated-message">
                     This is an automated email. Please do not reply to this message.
                 </div>
                 <div class="copyright">
-                    © ${new Date().getFullYear()} SmartLearn. All rights reserved.
+                    © ${new Date().getFullYear()} Nyaydeep. All rights reserved.
                 </div>
             </div>
         </div>
@@ -144,14 +144,14 @@ const passwordResetEmail = (user, resetURL) => {
                         This link will expire in 30 minutes. If you didn't request this password reset, please ignore this email or contact support if you have concerns.
                     </p>
                 </div>
-                <p style="font-size: 16px; margin: 30px 0 0 0;">Thanks,<br>The SmartLearn Team</p>
+                <p style="font-size: 16px; margin: 30px 0 0 0;">Thanks,<br>The Nyaydeep Team</p>
             </div>
             <div class="footer">
                 <div class="automated-message">
                     This is an automated email. Please do not reply to this message.
                 </div>
                 <div class="copyright">
-                    © ${new Date().getFullYear()} SmartLearn. All rights reserved.
+                    © ${new Date().getFullYear()} Nyaydeep. All rights reserved.
                 </div>
             </div>
         </div>
@@ -160,4 +160,110 @@ const passwordResetEmail = (user, resetURL) => {
     `;
 };
 
-module.exports = { passwordResetEmail, otpVerificationEmail };
+const dailyFactEmail = (user, fact) => {
+  return `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Your Daily Fact</title>
+      <style>
+          body {
+              margin: 0;
+              padding: 0;
+              font-family: Arial, sans-serif;
+              background-color: #f4f4f7;
+              color: #333333;
+          }
+          .container {
+              max-width: 600px;
+              margin: 40px auto;
+              background-color: #ffffff;
+              border-radius: 8px;
+              overflow: hidden;
+              box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+          }
+          .header {
+              background-color: #4a90e2;
+              color: #ffffff;
+              padding: 20px;
+              text-align: center;
+          }
+          .header h1 {
+              margin: 0;
+              font-size: 24px;
+              font-weight: 600;
+          }
+          .content {
+              padding: 30px 20px;
+              text-align: left;
+          }
+          .content p {
+              font-size: 16px;
+              line-height: 1.6;
+              margin: 15px 0;
+          }
+          .fact-block {
+              background-color: #f0f8ff;
+              border-left: 4px solid #4a90e2;
+              padding: 15px 20px;
+              margin: 20px 0;
+              border-radius: 4px;
+              font-style: italic;
+              font-size: 18px;
+          }
+          .source {
+              font-size: 14px;
+              color: #777777;
+              margin-top: 10px;
+          }
+          .footer {
+              background-color: #f4f4f7;
+              color: #999999;
+              text-align: center;
+              font-size: 12px;
+              padding: 15px 10px;
+          }
+          .footer a {
+              color: #4a90e2;
+              text-decoration: none;
+          }
+          @media (max-width: 600px) {
+              .content {
+                  padding: 20px 15px;
+              }
+              .header h1 {
+                  font-size: 20px;
+              }
+          }
+      </style>
+  </head>
+  <body>
+      <div class="container">
+          <div class="header">
+              <h1>📌 Your Daily Fact!</h1>
+          </div>
+          <div class="content">
+              <p>Hi ${user.name},</p>
+              <p>Here’s an interesting fact for you today:</p>
+              <div class="fact-block">
+                  ${fact.fact_text}
+              </div>
+              <div class="source">
+                  Source: ${fact.source || 'Unknown'}
+              </div>
+              <p>Stay curious and enjoy your day! 🌟</p>
+          </div>
+          <div class="footer">
+              This is an automated email from Nyaydeep. Please do not reply.<br/>
+              © ${new Date().getFullYear()} Nyaydeep. All rights reserved.
+          </div>
+      </div>
+  </body>
+  </html>
+  `;
+};
+
+
+module.exports = { passwordResetEmail, otpVerificationEmail, dailyFactEmail };

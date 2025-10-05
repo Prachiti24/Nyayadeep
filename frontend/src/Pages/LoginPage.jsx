@@ -40,7 +40,7 @@ const LoginPage = () => {
 
       if (json.token) {
         localStorage.setItem("token", json.token); // Save token
-        navigate("/"); // Redirect to homepage
+        navigate("/home"); // Redirect to homepage
       } else {
         alert("Invalid credentials");
       }
@@ -57,7 +57,7 @@ const LoginPage = () => {
       const response = await fetch(`${host}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(signupData), // Now includes passwordConfirm
+        body: JSON.stringify(signupData), 
       });
 
       const json = await response.json();
