@@ -148,17 +148,17 @@ const Navbar = () => {
           className="container flex items-center justify-between py-4 lg:py-6"
         >
           {/* Logo section */}
-          <div className="flex flex-row gap-3">
-            <img className="w-auto h-20" src={samvidhanPathLogo} alt="logo" />
+          <div className="flex flex-row gap-2">
+            <img className="w-auto h-16" src={samvidhanPathLogo} alt="logo" />
             <div className="flex flex-col justify-center items-left">
-              <h1 className="text-2xl font-bold">Nyaya-deep</h1>
-              <h1 className="text-2xl font-bold">न्यायदिप</h1> 
+              <h1 className="text-xl font-bold">Nyaya-deep</h1>
+              <h1 className="text-xl font-bold">न्यायदिप</h1>
 
             </div>
           </div>
           {/* Menu section */}
           <div className="hidden text-black bg-white lg:block dark:bg-gray-800 dark:text-white">
-            <ul className="flex items-center gap-6 text-black bg-white dark:bg-gray-800 dark:text-white">
+            <ul className="flex items-center gap-3 text-black bg-white dark:bg-gray-800 dark:text-white">
               {NavbarMenu.map((menu) => (
                 <li
                   key={menu.id}
@@ -168,7 +168,7 @@ const Navbar = () => {
                 >
                   <button
                     onClick={() => handleMenuClick(menu.path)}
-                    className="relative inline-block px-3 py-2 dark:hover:bg-gray-800 hover:text-secondary"
+                    className="relative inline-block px-2 py-1 text-base dark:hover:bg-gray-800 hover:text-secondary"
                   >
                     {menu.title}
                   </button>
