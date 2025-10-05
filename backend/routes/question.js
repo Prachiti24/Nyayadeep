@@ -1,9 +1,10 @@
 const express = require('express');
 const Question = require('../models/Question');
 const Option = require('../models/Option');
-const QuestionAttempt = require('../models/QuestionAttempt');
+const UserQuizAttempt = require('../models/UserQuizAttempt');
+const GameAttempt = require('../models/GameAttempt');
 const router = express.Router();
-const fetchUser = require('../middleware/fetchUser');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 // Get all questions for a topic
 router.get('/topic/:topicId', async (req, res) => {
@@ -16,15 +17,14 @@ router.get('/topic/:topicId', async (req, res) => {
 });
 
 // Submit an attempt
-router.post('/attempt', fetchUser, async (req, res) => {
+router.post('/attempt', authMiddleware, async (req, res) => {
   try {
-    const attempt = await QuestionAttempt.create({
-      userId: req.user.id,
-      questionId: req.body.questionId,
-      isCorrect: req.body.isCorrect,
-      answeredAt: new Date(),
-      scoreDelta: req.body.scoreDelta,
-      responseText: req.body.responseText || ''
+    const attempt = await UserQuizAttempt.create({
+      user_id: req.user.id,
+      quiz_id: req.body.quizId,
+      score: req.body.score,
+      total_questions: req.body.totalQuestions,
+      correct_answers: req.body.correctAnswers
     });
     res.json(attempt);
   } catch (err) {

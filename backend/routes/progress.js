@@ -3,7 +3,7 @@ const router = express.Router();
 const Progress = require("../models/Progress");
 
 // GET user progress
-router.get("/:userId", async (req, res) => {
+router.get("/:userId", async (req, res) => { // authMiddleware removed for testing
     try {
         const progress = await Progress.findOne({ userId: req.params.userId });
         res.json(progress || {});

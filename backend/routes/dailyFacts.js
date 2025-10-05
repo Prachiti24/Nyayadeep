@@ -1,18 +1,17 @@
 const express = require('express');
-const DailyFact = require('../models/DailyFact');
-const DailyFactView = require('../models/DailyFactView');
+const Fact = require('../models/Fact');
 const router = express.Router();
-const fetchUser = require('../middleware/fetchUser');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 // Get random active fact
-router.get('/random', fetchUser, async (req, res) => {
+router.get('/random', authMiddleware, async (req, res) => {
   try {
-    const facts = await DailyFact.find({ isActive: true });
+    const facts = await Fact.find({ is_active: true });
     if (!facts.length) return res.status(404).json({ error: 'No active facts' });
 
     const fact = facts[Math.floor(Math.random() * facts.length)];
 
-    await DailyFactView.create({ userId: req.user.id, factId: fact.id, shownOn: new Date() });
+    // No DailyFactView model, so skipping view tracking
 
     res.json(fact);
   } catch (err) {

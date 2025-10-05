@@ -8,7 +8,7 @@ function ContinueLearning({ userId }) {
 
     useEffect(() => {
         // Fetch user's progress to get completed lessons
-        axios.get(`http://localhost:5000/progress/${userId}`)
+        axios.get(`http://localhost:5000/api/progress/${userId}`)
             .then(res => {
                 const progress = res.data;
                 // For now, we'll simulate recent lessons. In a real app, you'd fetch from lessons API

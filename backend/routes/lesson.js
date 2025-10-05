@@ -1,8 +1,8 @@
 const express = require('express');
 const Lesson = require('../models/Lesson');
-const LessonProgress = require('../models/LessonProgress');
+const UserProgress = require('../models/UserProgress');
 const router = express.Router();
-const fetchUser = require('../middleware/fetchUser');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 // Get lessons in a section (published)
 router.get('/section/:sectionId', async (req, res) => {
@@ -15,10 +15,10 @@ router.get('/section/:sectionId', async (req, res) => {
 });
 
 // Mark lesson progress
-router.post('/progress', fetchUser, async (req, res) => {
+router.post('/progress', authMiddleware, async (req, res) => {
   try {
     const { lessonId, isCompleted } = req.body;
-    const progress = await LessonProgress.findOneAndUpdate(
+    const progress = await UserProgress.findOneAndUpdate(
       { userId: req.user.id, lessonId },
       { isCompleted, lastViewedAt: Date.now(), completedAt: isCompleted ? Date.now() : null },
       { upsert: true, new: true }

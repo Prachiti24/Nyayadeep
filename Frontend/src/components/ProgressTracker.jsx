@@ -9,7 +9,7 @@ function ProgressTracker({ userId }) {
         fetchProgress();
         // Check streak on component mount
         if (!streakUpdated) {
-            axios.post("http://localhost:5000/progress/streak-check", { userId })
+            axios.post("http://localhost:5000/api/progress/streak-check", { userId })
                 .then(() => {
                     setStreakUpdated(true);
                     fetchProgress();
@@ -19,7 +19,7 @@ function ProgressTracker({ userId }) {
     }, [userId, streakUpdated]);
 
     const fetchProgress = () => {
-        axios.get(`http://localhost:5000/progress/${userId}`)
+        axios.get(`http://localhost:5000/api/progress/${userId}`)
             .then(res => setProgress(res.data))
             .catch(err => console.error(err));
     };

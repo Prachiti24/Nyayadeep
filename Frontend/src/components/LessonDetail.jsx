@@ -21,7 +21,7 @@ function LessonDetail() {
         });
 
         // Fetch user progress for this lesson
-        axios.get(`http://localhost:5000/progress/${userId}`)
+        axios.get(`http://localhost:5000/api/progress/${userId}`)
             .then(res => {
                 const userProgress = res.data;
                 setProgress(userProgress);
@@ -35,11 +35,11 @@ function LessonDetail() {
     }, [lessonId, userId]);
 
     const markAsCompleted = () => {
-        axios.post("http://localhost:5000/progress/complete-lesson", { userId, lessonId })
+        axios.post("http://localhost:5000/api/progress/complete-lesson", { userId, lessonId })
             .then(() => {
                 setCompleted(true);
                 // Award XP
-                axios.post("http://localhost:5000/progress/xp-update", { userId, xp: 10 })
+                axios.post("http://localhost:5000/api/progress/xp-update", { userId, xp: 10 })
                     .then(() => {
                         alert("Lesson completed! +10 XP");
                     });

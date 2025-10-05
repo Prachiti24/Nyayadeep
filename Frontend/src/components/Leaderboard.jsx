@@ -6,7 +6,7 @@ function Leaderboard() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get("http://localhost:5000/progress/leaderboard/top")
+        axios.get("http://localhost:5000/api/progress/leaderboard/top")
             .then(res => {
                 setLeaders(res.data);
                 setLoading(false);
