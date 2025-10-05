@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { askAI } from "../Components/askAI"; // import from Components
-import "./ChatbotPage.css"; // optional CSS for styling
+import React, { useState } from 'react';
+import { askAI } from '../../Components/askAI';
+import './ChatbotPage.css';
 
 const ChatbotPage = () => {
-  const [question, setQuestion] = useState("");
-  const [response, setResponse] = useState("");
+  const [question, setQuestion] = useState('');
+  const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleAsk = async () => {
@@ -13,7 +13,7 @@ const ChatbotPage = () => {
     const answer = await askAI(question);
     setResponse(answer);
     setLoading(false);
-    setQuestion(""); // clear input after sending
+    setQuestion('');
   };
 
   return (
@@ -30,7 +30,7 @@ const ChatbotPage = () => {
           placeholder="Ask me anything..."
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleAsk()}
+          onKeyDown={(e) => e.key === 'Enter' && handleAsk()}
         />
         <button onClick={handleAsk}>Send</button>
       </div>
