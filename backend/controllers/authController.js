@@ -355,3 +355,30 @@ exports.updateUserProfile = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.addXP = catchAsync(async (req, res, next) => {
+  const userId = req.user._id;
+  const { xp } = req.body; // XP amount to add (e.g., 20)
+
+  if (!xp || isNaN(xp) || xp <= 0) {
+    return next(new AppError("Invalid XP amount", 400));
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { $inc: { xpTotal: xp } },
+    { new: true, runValidators: false } // disable validators (fixes passwordConfirm issue)
+  );
+
+  if (!updatedUser) {
+    return next(new AppError("User not found", 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    message: `+${xp} XP added successfully!`,
+    data: {
+      user: updatedUser,
+    },
+  });
+});

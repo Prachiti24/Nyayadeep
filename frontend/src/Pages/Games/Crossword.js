@@ -55,7 +55,7 @@ const CrosswordGame = () => {
         }
     };
 
-    const checkAnswers = () => {
+    const checkAnswers = async () => {
         const { solution } = crossword;
         for (let i = 0; i < solution.length; i++) {
             for (let j = 0; j < solution[i].length; j++) {
@@ -66,6 +66,24 @@ const CrosswordGame = () => {
             }
         }
         alert("Congratulations! You've completed the crossword!");
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Please log in to earn XP!");
+                return;
+            }
+
+            await axios.patch(
+                "http://localhost:5000/api/auth/addXP",
+                { xp: 20 },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            alert("✅ You earned +20 XP!");
+        } catch (err) {
+            console.error("Error updating XP:", err);
+            alert("⚠️ Something went wrong while updating XP.");
+        }
     };
 
     if (!crossword) return <div className="text-center mt-5">Loading crossword...</div>;

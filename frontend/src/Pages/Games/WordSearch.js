@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
+import axios from "axios";
+
 
 const MockBackendData = {
   words: [
@@ -114,6 +116,8 @@ const getWordPath = (start, end, grid, gridSize) => {
 
 
 const App = () => {
+  const [xpGiven, setXpGiven] = useState(false);
+
   const [wordBank, setWordBank] = useState([]);
   const [clueMap, setClueMap] = useState({});
   const [maxWords, setMaxWords] = useState(5);
@@ -129,6 +133,31 @@ const App = () => {
   const [message, setMessage] = useState('');
   
   const highlightedCells = getWordPath(startCell, endCell, grid, gridSize)?.path || [];
+  const isGameOver = foundWords.length === wordsToFind.length;
+
+  // 🟢 XP addition effect — INSIDE component
+  useEffect(() => {
+    if (isGameOver && !xpGiven) {
+      const addXP = async () => {
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) return;
+
+          await axios.patch(
+            "http://localhost:5000/api/auth/addXP",
+            { xp: 20 },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+
+          alert("🎉 +20 XP added to your account!");
+          setXpGiven(true);
+        } catch (error) {
+          console.error("Error updating XP:", error);
+        }
+      };
+      addXP();
+    }
+  }, [isGameOver, xpGiven]);
   
   useEffect(() => {
     setLoading(true);
@@ -226,7 +255,6 @@ const App = () => {
       return foundCellCoords.includes(cellKey);
   }, [foundCellCoords]);
 
-  const isGameOver = foundWords.length === wordsToFind.length;
 
   if (loading || gridSize === 0) {
       return (
