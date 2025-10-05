@@ -35,6 +35,10 @@ const SignIn = () => {
       );
       console.log("Session created successfully:", session);
 
+      // Get user details
+      const user = await account.get();
+      localStorage.setItem('userId', user.$id); // Store userId in localStorage
+
       // Redirect to dashboard or home page
       navigate("/dashboard");
     } catch (err) {

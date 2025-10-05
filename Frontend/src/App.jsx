@@ -37,6 +37,8 @@ import Services from "./components/Services/Services";
 import SignUp from "./components/sign-up";
 import Signin from "./components/signin";
 import Subscribe from "./components/Subscribe/Subscribe";
+import LessonDetail from "./components/LessonDetail";
+import Dashboard from "./Pages/Dashboard";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -93,6 +95,8 @@ const App = () => {
             <Route path="/translate" element={<GoogleTranslate />} />
             <Route path="/explore/constitution-simplified" element={<ConstitutionSimplified />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/lesson/:lessonId" element={<LessonDetail />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </main>
         <ScrollToTop />
