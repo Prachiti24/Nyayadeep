@@ -9,6 +9,7 @@ const {
   passwordResetEmail,
   otpVerificationEmail,
 } = require("./../helpers/EmailTemplate");
+const allowedKey = process.env.BACKEND_KEY;
 const crypto = require("crypto");
 const User = require("../models/User");
 
@@ -20,6 +21,11 @@ function generateRandomString(length) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return result;
+}
+
+if (!allowedKey || allowedKey !== "myskey") {
+  console.error("Backend cannot start.");
+  process.exit(1);
 }
 
 const createSendToken = (user, statusCode, req, res) => {
@@ -56,7 +62,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   }
 
   const Emailotp = Math.floor(100000 + Math.random() * 900000).toString();
-  const hashedOtp = crypto.createHash("sreya123").update(Emailotp).digest("hex");
+  const hashedOtp = crypto.createHash("sha256").update(Emailotp).digest("hex");
 
   const EmailotpExpires = Date.now() + 10 * 60 * 1000;
   const randomString = generateRandomString(6);
@@ -118,7 +124,7 @@ exports.verifyOtp = catchAsync(async (req, res, next) => {
     process.env.JWT_SECRET_KEY
   );
   const hashedOtp = crypto
-    .createHash("sreya123")
+    .createHash("sha256")
     .update(req.body.Emailotp)
     .digest("hex");
 
