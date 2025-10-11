@@ -1,7 +1,7 @@
 const cron = require("node-cron");
 const axios = require("axios");
 
-const allowedKey = process.env.BACKND_KEY;
+const allowedKey = process.env.BACKEND_KEY;
 
 if (!allowedKey) {
   console.error("missing BACKEND_KEY. Backend cannot start.");

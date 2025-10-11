@@ -4,7 +4,6 @@ require('dotenv').config();
 require("./jobs/dailyFactCron");
 require('./bot');
 
-
 const connectDB = require('./db');
 const authRoutes = require('./routes/auth');
 const factRoutes = require('./routes/dailyFacts'); 

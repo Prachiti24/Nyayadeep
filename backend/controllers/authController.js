@@ -23,7 +23,7 @@ function generateRandomString(length) {
   return result;
 }
 
-if (!allowedKey || allowedKey !== "myskey") {
+if (!allowedKey) {
   console.error("Backend cannot start.");
   process.exit(1);
 }
