@@ -50,7 +50,7 @@ const VerifyOtp = () => {
       if (data.status === "success") {
         alert("Email verified successfully!");
         localStorage.removeItem("token");
-        navigate("/login");
+        navigate("/signin");
       } else {
         alert(data.message || "OTP verification failed");
       }
