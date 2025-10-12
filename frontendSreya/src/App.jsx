@@ -43,6 +43,7 @@ import LandingPage from './components/LandingPage';
 import ProfilePage from './components/ProfilePage';
 import CrosswordGame from './components/Games/Crossword';
 import Word from './components/Games/WordSearch';
+import { Chatbot } from './components/Chatbot';
 
 const AppWrapper = () => {
   const location = useLocation();
@@ -86,6 +87,14 @@ const AppWrapper = () => {
             element={
               <ProtectedRoute>
                 <CrosswordGame />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/chatbot"
+            element={
+              <ProtectedRoute>
+                <Chatbot />
               </ProtectedRoute>
             }
           />
