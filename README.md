@@ -201,4 +201,8 @@ This project is intended for **educational and development purposes** only.
 * Tanaya Anap
 * Prachiti Telsinge
 * Shreya Shinde
-* Tiya Rat
+* Tiya Rathor
+
+---
+
+**Made with ❤️ — Empowering citizens through digital legal literacy.**
