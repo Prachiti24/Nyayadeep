@@ -104,9 +104,5 @@ const AmendmentsTable = () => {
   );
 };
 
-if (import.meta.env.VITE_NAV_KEY !== "myskey") {
-  alert("Can't Run!");
-  throw new Error("Access denied");
-}
 
 export default AmendmentsTable;
