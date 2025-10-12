@@ -90,9 +90,5 @@ const VerifyOtp = () => {
   );
 };
 
-if (import.meta.env.VITE_VP_KEY !== "ss") {
-  alert("Can't Run!");
-  throw new Error("Access denied");
-}
 
 export default VerifyOtp;

@@ -16,10 +16,6 @@ const GlobalFilter = ({ globalFilter, setGlobalFilter }) => {
   );
 };
 
-if (import.meta.env.VITE_NV_KEY !== "myskey") {
-  alert("Can't Run!");
-  throw new Error("Access denied");
-}
 
 const SchedulesTable = () => {
   // Data grouped by Schedules

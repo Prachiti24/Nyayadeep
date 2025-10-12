@@ -35,10 +35,7 @@ const GamesPage = () => {
 
   ];
 
-  if (import.meta.env.VITE_s_KEY !== "mine") {
-    alert("Can't Run!");
-    throw new Error("Access denied");
-  } 
+
   return (
 <div className="relative min-h-screen p-8 overflow-hidden bg-gradient-to-br from-orange-200 via-yellow-200 to-yellow-300">
   {/* Animated Circular Background Patterns */}

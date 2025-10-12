@@ -25,10 +25,6 @@ const sections = [
   },
 ];
 
-if (import.meta.env.VITE_V_KEY !== "mysy") {
-  alert("Can't Run!");
-  throw new Error("Access denied");
-} 
 
 const SlideUp = (delay) => {
   return {

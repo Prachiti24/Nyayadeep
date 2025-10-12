@@ -58,7 +58,7 @@ const AppWrapper = () => {
   }, []);
 
   // Define routes where Navbar + Footer should NOT be shown
-  const noNavbarRoutes = ["/", "/signin", "/verify-otp", "/profile"];
+  const noNavbarRoutes = ["/", "/signin", "/verify-otp"];
 
   const showNavbarFooter = !noNavbarRoutes.includes(location.pathname);
 

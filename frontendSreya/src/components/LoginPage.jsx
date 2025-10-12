@@ -76,10 +76,7 @@ const LoginPage = () => {
       alert("Something went wrong while signing up");
     }
   };
-  if (import.meta.env.VITE_log_KEY !== "log") {
-    alert("Can't Run!");
-    throw new Error("Access denied");
-  }
+  
   return (
     <div id="first-login">
       <h2>Nyaydeep</h2>

@@ -137,7 +137,7 @@ const Word = () => {
 
   // 🟢 XP addition effect — INSIDE component
   useEffect(() => {
-    if (isGameOver && !xpGiven) {
+    if (wordsToFind.length > 0 && isGameOver && !xpGiven) {
       const addXP = async () => {
         try {
           const token = localStorage.getItem("token");
