@@ -12,26 +12,26 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, "Please provide your email"],
+      required: function () { return !this.telegramId; },
       unique: true,
       lowercase: true,
       validate: [validator.isEmail, "Please provide a valid email"],
     },
     username: {
       type: String,
-      required: true,
+      required: function () { return !this.telegramId; },
       unique: true,
       trim: true,
     },
     password: {
       type: String,
-      required: [true, "Please provide a password"],
+      required: function () { return !this.telegramId; },
       minlength: 3,
       select: false,
     },
     passwordConfirm: {
       type: String,
-      required: [true, "Please confirm your password:)"],
+      required: function () { return !this.telegramId; },
       validate: {
         validator: function (el) {
           return el === this.password;
@@ -39,6 +39,7 @@ const userSchema = new mongoose.Schema(
         message: "Passwords are not the same!",
       },
     },
+
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,

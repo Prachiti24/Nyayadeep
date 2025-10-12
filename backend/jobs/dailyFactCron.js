@@ -1,22 +1,13 @@
 const cron = require("node-cron");
-const axios = require("axios");
+const { sendDailyFact } = require("../telegramBot");
 
-const allowedKey = process.env.BACKEND_KEY;
+const cronSchedule = process.env.CRON_SCHEDULE || "0 9 * * *";
 
-if (!allowedKey) {
-  console.error("missing BACKEND_KEY. Backend cannot start.");
-  process.exit(1);
-}
-
-cron.schedule("49 11 * * *", async () => {
+cron.schedule(cronSchedule, async () => {
+  console.log("Cron job triggered: sending daily facts...");
   try {
-    console.log("Triggering /daily-fact/send API at 3:47 PM...");
-
-    const { data } = await axios.post("http://localhost:5000/api/facts/send", {});
-    console.log("Daily fact API response:", data);
+    await sendDailyFact({ delayMs: 200 });
   } catch (err) {
-    console.error("Failed to call /daily-fact/send:", err.message);
+    console.error("Failed scheduled send:", err);
   }
-}, {
-  timezone: "Asia/Kolkata"
 });
