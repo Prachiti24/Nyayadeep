@@ -16,6 +16,7 @@ const GlobalFilter = ({ globalFilter, setGlobalFilter }) => {
   );
 };
 
+
 const SchedulesTable = () => {
   // Data grouped by Schedules
   const groupedData = useMemo(

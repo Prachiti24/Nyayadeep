@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const connectDB = require('./db'); // Import DB connection
+const connectDB = require('./db');
 const authRoutes = require('./routes/auth');
 const progressRoutes = require('./routes/progress');
 const lessonRoutes = require('./routes/lesson');

@@ -104,4 +104,5 @@ const AmendmentsTable = () => {
   );
 };
 
+
 export default AmendmentsTable;

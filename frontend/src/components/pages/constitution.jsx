@@ -25,6 +25,7 @@ const sections = [
   },
 ];
 
+
 const SlideUp = (delay) => {
   return {
     initial: {
