@@ -4,8 +4,6 @@ const Option = require('../models/Option');
 const UserQuizAttempt = require('../models/UserQuizAttempt');
 const GameAttempt = require('../models/GameAttempt');
 const router = express.Router();
-const authMiddleware = require('../middlewares/authMiddleware');
-
 // Get all questions for a topic
 router.get('/topic/:topicId', async (req, res) => {
   try {
@@ -17,7 +15,7 @@ router.get('/topic/:topicId', async (req, res) => {
 });
 
 // Submit an attempt
-router.post('/attempt', authMiddleware, async (req, res) => {
+router.post('/attempt', async (req, res) => {
   try {
     const attempt = await UserQuizAttempt.create({
       user_id: req.user.id,

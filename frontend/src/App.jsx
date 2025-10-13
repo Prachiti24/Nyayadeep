@@ -1,7 +1,7 @@
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { useEffect, useState } from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes, useLocation } from "react-router-dom";
 import Banner from "./components/Banner/Banner";
 import Banner2 from "./components/Banner/Banner2";
 import Footer from "./components/Footer/Footer";
@@ -34,78 +34,352 @@ import Learn from "./components/pages/Learn";
 import Terms from "./components/pages/terms";
 import ScrollToTop from "./components/Scrolltotop";
 import Services from "./components/Services/Services";
-import SignUp from "./components/sign-up";
-import Signin from "./components/signin";
+import LoginPage from "./components/LoginPage";
 import Subscribe from "./components/Subscribe/Subscribe";
-import LessonDetail from "./components/LessonDetail";
-import Dashboard from "./Pages/Dashboard";
+import VerifyOtp from './components/VerifyOtp';
 
-const App = () => {
+import ProtectedRoute from "./components/ProtectedRoute";
+import LandingPage from './components/LandingPage';
+import ProfilePage from './components/ProfilePage';
+import CrosswordGame from './components/Games/Crossword';
+import Word from './components/Games/WordSearch';
+import { Chatbot } from './components/Chatbot';
+import Dashboard from './components/Dashboard';
+
+const AppWrapper = () => {
+  const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate a delay for loading (e.g., API fetch or resources)
     const timer = setTimeout(() => {
       setIsLoading(false);
       const preloader = document.getElementById("preloader");
-      if (preloader) {
-        preloader.style.display = "none";
-      }
+      if (preloader) preloader.style.display = "none";
     }, 2000);
-
-    return () => clearTimeout(timer); 
+    return () => clearTimeout(timer);
   }, []);
 
+  // Define routes where Navbar + Footer should NOT be shown
+  const noNavbarRoutes = ["/", "/signin", "/verify-otp"];
+
+  const showNavbarFooter = !noNavbarRoutes.includes(location.pathname);
+
   return (
-    <Router>
-      <main className="overflow-x-hidden">
-        <Navbar />
-        <main className="text-black bg-white dark:bg-gray-800 dark:text-white">
-          <Routes className="text-black bg-white dark:bg-gray-800 dark:text-white">
-            <Route path="/" element={<Hero />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/banner" element={<Banner />} />
-            <Route path="/subscribe" element={<Subscribe />} />
-            <Route path="/banner2" element={<Banner2 />} />
-            <Route path="/footer" element={<Footer />} />
-            <Route path="/constitution" element={<Constitution />} />
-            <Route path="/explore" element={<Explore />} />
-            <Route path="/learn" element={<Learn />} />
-            <Route path="/citizen" element={<Citizen />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/engage" element={<Engage />} />
-            <Route path="/games" element={<Games />} />
-            <Route path="/ebooks" element={<Ebooks />} />
-            <Route path="/aboutus" element={<AboutUs />} />
-            <Route path="/casestudies" element={<CaseStudies />} />
-            <Route path="/constitution/preamble" element={<Preamble />} />
-            <Route path="/constitution/history" element={<History />} />
-            <Route path="/citizen/rights" element={<Rights />} />
-            <Route path="/citizen/duties" element={<Duties />} />
-            <Route path="/citizen/dpsp" element={<DPSP />} />
-            <Route path="/citizen/schedules" element={<Schedules />} />
-            <Route path="/citizen/amendment" element={<Amendments />} />
-            <Route path="/t&C" element={<Terms />} />
-            <Route path="/engage/discussionforum" element={<DiscussionForum />} />
-            <Route path="/engage/blog" element={<BlogPage />} />
-            <Route path="/engage/podcast" element={<PodcastPage />} />
-            <Route path="/engage/video" element={<VideoPage />} />
-            <Route path="/docs/:fileName" element={<MarkdownViewer />} />
-            <Route path="/signin" element={<Signin />} />
-            <Route path="/translate" element={<GoogleTranslate />} />
-            <Route path="/explore/constitution-simplified" element={<ConstitutionSimplified />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/lesson/:lessonId" element={<LessonDetail />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Routes>
-        </main>
-        <ScrollToTop />
-        <Footer />
-        <Analytics />
-        <SpeedInsights />
+    <>
+      {showNavbarFooter && <Navbar />}
+      <main className="text-black bg-white dark:bg-gray-800 dark:text-white">
+        <Routes>
+          {/* Public routes */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signin" element={<LoginPage />} />
+          <Route path="/verify-otp" element={<VerifyOtp />} />
+
+          {/* Protected routes */}
+          <Route
+            path="/hero"
+            element={
+              <ProtectedRoute>
+                <Hero />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/crossword"
+            element={
+              <ProtectedRoute>
+                <CrosswordGame />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/chatbot"
+            element={
+              <ProtectedRoute>
+                <Chatbot />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/word-search"
+            element={
+              <ProtectedRoute>
+                < Word />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/services"
+            element={
+              <ProtectedRoute>
+                <Services />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/banner"
+            element={
+              <ProtectedRoute>
+                <Banner />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/subscribe"
+            element={
+              <ProtectedRoute>
+                <Subscribe />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/banner2"
+            element={
+              <ProtectedRoute>
+                <Banner2 />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/footer"
+            element={
+              <ProtectedRoute>
+                <Footer />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/constitution"
+            element={
+              <ProtectedRoute>
+                <Constitution />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/explore"
+            element={
+              <ProtectedRoute>
+                <Explore />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/learn"
+            element={
+              <ProtectedRoute>
+                <Learn />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/citizen"
+            element={
+              <ProtectedRoute>
+                <Citizen />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <ProtectedRoute>
+                <Contact />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/engage"
+            element={
+              <ProtectedRoute>
+                <Engage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/games"
+            element={
+              <ProtectedRoute>
+                <Games />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ebooks"
+            element={
+              <ProtectedRoute>
+                <Ebooks />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/aboutus"
+            element={
+              <ProtectedRoute>
+                <AboutUs />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/casestudies"
+            element={
+              <ProtectedRoute>
+                <CaseStudies />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/constitution/preamble"
+            element={
+              <ProtectedRoute>
+                <Preamble />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/constitution/history"
+            element={
+              <ProtectedRoute>
+                <History />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/citizen/rights"
+            element={
+              <ProtectedRoute>
+                <Rights />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/citizen/duties"
+            element={
+              <ProtectedRoute>
+                <Duties />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/citizen/dpsp"
+            element={
+              <ProtectedRoute>
+                <DPSP />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/citizen/schedules"
+            element={
+              <ProtectedRoute>
+                <Schedules />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/citizen/amendment"
+            element={
+              <ProtectedRoute>
+                <Amendments />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/t&C"
+            element={
+              <ProtectedRoute>
+                <Terms />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/engage/discussionforum"
+            element={
+              <ProtectedRoute>
+                <DiscussionForum />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/engage/blog"
+            element={
+              <ProtectedRoute>
+                <BlogPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/engage/podcast"
+            element={
+              <ProtectedRoute>
+                <PodcastPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/engage/video"
+            element={
+              <ProtectedRoute>
+                <VideoPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/docs/:fileName"
+            element={
+              <ProtectedRoute>
+                <MarkdownViewer />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/translate"
+            element={
+              <ProtectedRoute>
+                <GoogleTranslate />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/explore/constitution-simplified"
+            element={
+              <ProtectedRoute>
+                <ConstitutionSimplified />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+
       </main>
-    </Router>
+
+      {showNavbarFooter && <Footer />}
+      <ScrollToTop />
+      <Analytics />
+      <SpeedInsights />
+    </>
   );
 };
+
+const App = () => (
+  <Router>
+    <AppWrapper />
+  </Router>
+);
 
 export default App;

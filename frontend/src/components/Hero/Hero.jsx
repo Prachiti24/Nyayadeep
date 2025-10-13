@@ -2,7 +2,7 @@ import React from "react";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { motion } from "framer-motion";
 import Blob from "../../assets/blob.svg";
-import HeroPng from "../../assets/hero.png";
+import HeroPng from "../../assets/hero2.png";
 import Banner from "../Banner/Banner";
 import Banner2 from "../Banner/Banner2";
 import Services from "../Services/Services";

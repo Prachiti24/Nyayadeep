@@ -2,8 +2,6 @@ const express = require('express');
 const Lesson = require('../models/Lesson');
 const UserProgress = require('../models/UserProgress');
 const router = express.Router();
-const authMiddleware = require('../middlewares/authMiddleware');
-
 // Get lessons in a section (published)
 router.get('/section/:sectionId', async (req, res) => {
   try {
@@ -15,7 +13,7 @@ router.get('/section/:sectionId', async (req, res) => {
 });
 
 // Mark lesson progress
-router.post('/progress', authMiddleware, async (req, res) => {
+router.post('/progress', async (req, res) => {
   try {
     const { lessonId, isCompleted } = req.body;
     const progress = await UserProgress.findOneAndUpdate(
