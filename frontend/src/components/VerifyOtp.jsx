@@ -82,7 +82,7 @@ const VerifyOtp = () => {
           </div>
           <button type="submit" className="verify-btn">Verify OTP</button>
         </form>
-        <button onClick={() => navigate("/login")} className="back-btn">
+        <button onClick={() => navigate("/signin")} className="back-btn">
           Back to Login/Signup
         </button>
       </div>

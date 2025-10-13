@@ -52,7 +52,7 @@ const NavbarMenu = [
   { id: 6, title: "E-Books", path: "/ebooks" },
   { id: 7, title: "Games", path: "/games" },
   { id: 8, title: "Contact Us", path: "/contact" },
-  { id: 9, title: "Chatbot", path: "/chatbot" }
+  { id: 9, title: "Sanvidhan Saathi", path: "/chatbot" }
 ];
 
 const Navbar = () => {
