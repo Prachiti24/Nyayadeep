@@ -28,7 +28,7 @@ const Footer = () => {
           {/* Second Section */}
           <div className="grid grid-cols-2 gap-10 px-5 text-center md:px-0 md:text-left">
             <div className="space-y-4">
-              <h1 className="text-2xl font-bold text-black dark:text-white">Explore Features</h1>
+              <h1 className="text-2xl font-bold text-white dark:text-white">Explore Features</h1>
               <ul className="space-y-2 text-lg ">
                 <li>
                   <Link
@@ -78,7 +78,7 @@ const Footer = () => {
               </ul>
             </div>
             <div className="space-y-4">
-              <h1 className="text-2xl font-bold text-black dark:text-white">Links</h1>
+              <h1 className="text-2xl font-bold text-white dark:text-white">Links</h1>
               <ul className="space-y-2 text-lg">
                 <li>
                   <Link
