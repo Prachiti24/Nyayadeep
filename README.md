@@ -85,7 +85,7 @@ Backend will start at: **[http://localhost:5000](http://localhost:5000)**
 #### 📄 Backend `.env` Example
 
 ```bash
-MONGODB_URI=mongodb://localhost:27017/Nyaydeep
+MONGODB_URI=mongodb://localhost:27017/Nyayadeep
 PORT=5000
 JWT_SECRET_KEY=your_jwt_secret
 JWT_EXPIRES_IN=7d

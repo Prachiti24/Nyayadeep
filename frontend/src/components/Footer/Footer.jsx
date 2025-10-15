@@ -11,7 +11,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="text-gray-500 bg-gray-100 py-28 dark:bg-gray-900 dark:text-gray-400">
+    <footer className="text-gray-500 bg-black py-8 dark:bg-black dark:text-gray-400">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -20,7 +20,7 @@ const Footer = () => {
         <div className="grid items-center grid-cols-1 md:items-start md:grid-cols-2 lg:grid-cols-3 gap-14 md:gap-8 md:justify-normal ">
           {/* First Section */}
           <div className="space-y-4 max-w-[400px] flex flex-col items-center md:items-start">
-            <h1 className="text-2xl font-bold text-black dark:text-white">Nyaya-deep</h1>
+            <h1 className="text-2xl font-bold text-black dark:text-white">Nyayadeep</h1>
             <img src={logo} alt="logo" className="w-1/4 h-auto" />
             <p>Bringing the Constitution Closer to Every Citizen</p>
           </div>

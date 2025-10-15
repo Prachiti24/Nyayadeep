@@ -81,7 +81,7 @@ const LoginPage = () => {
   
   return (
     <div id="first-login">
-      <h2>Nyaydeep</h2>
+      <h2>Nyayadeep</h2>
       <div
         className={`container ${isRightPanelActive ? "right-panel-active" : ""}`}
         id="container"

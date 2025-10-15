@@ -39,6 +39,7 @@ import Subscribe from "./components/Subscribe/Subscribe";
 import VerifyOtp from './components/VerifyOtp';
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import HomeRedirect from './components/HomeRedirect';
 import LandingPage from './components/LandingPage';
 import ProfilePage from './components/ProfilePage';
 import CrosswordGame from './components/Games/Crossword';
@@ -60,7 +61,7 @@ const AppWrapper = () => {
   }, []);
 
   // Define routes where Navbar + Footer should NOT be shown
-  const noNavbarRoutes = ["/", "/signin", "/verify-otp"];
+  const noNavbarRoutes = ["/", "/signin", "/verify-otp", "/home"];
 
   const showNavbarFooter = !noNavbarRoutes.includes(location.pathname);
 
@@ -70,9 +71,10 @@ const AppWrapper = () => {
       <main className="text-black bg-white dark:bg-gray-800 dark:text-white">
         <Routes>
           {/* Public routes */}
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<HomeRedirect />} />
           <Route path="/signin" element={<LoginPage />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />
+          <Route path="/home" element={<LandingPage />} />
 
           {/* Protected routes */}
           <Route

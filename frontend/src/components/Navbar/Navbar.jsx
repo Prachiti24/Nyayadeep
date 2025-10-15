@@ -7,6 +7,7 @@ import samvidhanPathLogo from "../../assets/samvidhanpath.png";
 import GoogleTranslate from "../Language";
 import TextToSpeech from "../TexttoSpeach";
 import ThemeChange from "../Themechange";
+import ProfileDropdown from "../ProfileDropdown";
 
 const NavbarMenu = [
   { id: 1, title: "Home", path: "/" },
@@ -151,7 +152,7 @@ const Navbar = () => {
           <div className="flex flex-row gap-2">
             <img className="w-auto h-16" src={samvidhanPathLogo} alt="logo" />
             <div className="flex flex-col justify-center items-left">
-              <h1 className="text-xl font-bold">Nyaya-deep</h1>
+              <h1 className="text-xl font-bold">Nyayadeep</h1>
               <h1 className="text-xl font-bold">न्यायदिप</h1>
 
             </div>
@@ -203,9 +204,11 @@ const Navbar = () => {
                   </AnimatePresence>
                 </li>
               ))}
-              <button className="primary-btn" onClick={Signupclick}>Sign Up</button>
+              <ProfileDropdown />
             </ul>
           </div>
+          {/* Google Translate */}
+          <GoogleTranslate />
           {/* Mobile Hamburger menu section */}
           <div className="static">
             <motion.div
