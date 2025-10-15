@@ -7,7 +7,7 @@ function ProgressTracker({ userId }) {
 
     useEffect(() => {
         fetchProgress();
-        // Check streak on component mount
+        // Check streak on component mount - only once per session
         if (!streakUpdated) {
             axios.post("http://localhost:5000/api/progress/streak-check", { userId })
                 .then(() => {
@@ -16,7 +16,7 @@ function ProgressTracker({ userId }) {
                 })
                 .catch(err => console.error(err));
         }
-    }, [userId, streakUpdated]);
+    }, [userId]); // Removed streakUpdated from dependencies to prevent re-triggering
 
     const fetchProgress = () => {
         axios.get(`http://localhost:5000/api/progress/${userId}`)

@@ -27,23 +27,42 @@ router.post("/xp-update", async (req, res) => {
     }
 });
 
-// Streak calculation
+// Streak calculation - Fixed to use server time and prevent multiple updates per day
 router.post("/streak-check", async (req, res) => {
     try {
         const { userId } = req.body;
         let progress = await Progress.findOne({ userId });
 
-        const today = new Date();
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // Start of today in server time
+
         if (!progress) {
-        progress = new Progress({ userId, streaks: 1, lastViewed: today });
+            progress = new Progress({
+                userId,
+                streaks: 1,
+                lastViewed: today,
+                lastStreakUpdate: today
+            });
         } else {
-        const last = new Date(progress.lastViewed);
-        const diff = (today - last) / (1000 * 60 * 60 * 24);
+            const lastUpdate = new Date(progress.lastStreakUpdate);
+            const lastUpdateDate = new Date(lastUpdate.getFullYear(), lastUpdate.getMonth(), lastUpdate.getDate());
 
-        if (diff < 2) progress.streaks += 1;
-        else progress.streaks = 1;
+            // Only update streak if it's a new day
+            if (today.getTime() > lastUpdateDate.getTime()) {
+                const diffDays = Math.floor((today - lastUpdateDate) / (1000 * 60 * 60 * 24));
 
-        progress.lastViewed = today;
+                if (diffDays === 1) {
+                    // Consecutive day - increment streak
+                    progress.streaks += 1;
+                } else if (diffDays > 1) {
+                    // Gap in days - reset streak
+                    progress.streaks = 1;
+                }
+                // If diffDays === 0, it's the same day, don't update
+
+                progress.lastViewed = now;
+                progress.lastStreakUpdate = today;
+            }
         }
 
         await progress.save();

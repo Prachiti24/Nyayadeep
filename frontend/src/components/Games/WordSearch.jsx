@@ -145,7 +145,7 @@ const Word = () => {
 
           await axios.patch(
             "http://localhost:5000/api/auth/addXP",
-            { xp: 20 },
+            { xp: 20, activity: "wordsearch_completion" },
             { headers: { Authorization: `Bearer ${token}` } }
           );
 

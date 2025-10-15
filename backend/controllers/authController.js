@@ -367,18 +367,54 @@ exports.updateUserProfile = catchAsync(async (req, res, next) => {
   });
 });
 
+const Progress = require("../models/Progress");
+
 exports.addXP = catchAsync(async (req, res, next) => {
   const userId = req.user._id;
-  const { xp } = req.body; // XP amount to add (e.g., 20)
+  const { xp, activity = 'general' } = req.body; // XP amount and activity type
 
   if (!xp || isNaN(xp) || xp <= 0) {
     return next(new AppError("Invalid XP amount", 400));
   }
 
+  // Update Progress model (primary XP tracking)
+  let progress = await Progress.findOne({ userId });
+  if (!progress) {
+    progress = new Progress({ userId });
+  }
+
+  progress.xp += xp;
+
+  // Check for badges based on XP milestones
+  if (progress.xp >= 100 && !progress.badges.includes('First Steps')) {
+    progress.badges.push('First Steps');
+  }
+  if (progress.xp >= 500 && !progress.badges.includes('Learner')) {
+    progress.badges.push('Learner');
+  }
+  if (progress.xp >= 1000 && !progress.badges.includes('Scholar')) {
+    progress.badges.push('Scholar');
+  }
+
+  // Update streak on activity
+  const today = new Date();
+  if (!progress.lastViewed || (today - new Date(progress.lastViewed)) / (1000 * 60 * 60 * 24) >= 1) {
+    const diff = progress.lastViewed ? (today - new Date(progress.lastViewed)) / (1000 * 60 * 60 * 24) : 0;
+    if (diff <= 2) {
+      progress.streaks += 1;
+    } else {
+      progress.streaks = 1;
+    }
+    progress.lastViewed = today;
+  }
+
+  await progress.save();
+
+  // Sync with User model for backward compatibility
   const updatedUser = await User.findByIdAndUpdate(
     userId,
-    { $inc: { xpTotal: xp } },
-    { new: true, runValidators: false } // disable validators (fixes passwordConfirm issue)
+    { $inc: { xpTotal: xp }, lastAccessedAt: new Date() },
+    { new: true, runValidators: false }
   );
 
   if (!updatedUser) {
@@ -387,9 +423,10 @@ exports.addXP = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    message: `+${xp} XP added successfully!`,
+    message: `+${xp} XP added successfully from ${activity}!`,
     data: {
       user: updatedUser,
+      progress: progress
     },
   });
 });
