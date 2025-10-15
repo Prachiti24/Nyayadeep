@@ -42,6 +42,8 @@ const LoginPage = () => {
 
       if (json.token) {
         localStorage.setItem("token", json.token);
+        localStorage.setItem("userId", json.data.user._id); // ✅ save userId
+        localStorage.setItem("userName", json.data.user.name); // optional
         navigate("/dashboard"); // ✅ handled inside Vite app itself
       } else {
         alert(json.message || "Invalid credentials");

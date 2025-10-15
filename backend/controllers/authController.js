@@ -76,6 +76,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm,
     Emailotp: hashedOtp,
     EmailotpExpires,
+    verified: false,
   });
 
   const message = `Your OTP code is ${Emailotp}. It will expire in 10 minutes.`;
@@ -128,7 +129,7 @@ exports.verifyOtp = catchAsync(async (req, res, next) => {
     .update(req.body.Emailotp)
     .digest("hex");
 
-  const realEmail = decoded.email.slice(17);
+  const realEmail = decoded.email.slice(16);
   let user = await User.findOne({
     email: decoded.email,
     Emailotp: hashedOtp,
@@ -143,6 +144,7 @@ exports.verifyOtp = catchAsync(async (req, res, next) => {
   user.email = realEmail;
   user.Emailotp = undefined;
   user.EmailotpExpires = undefined;
+  user.verified = true;
   user = await user.save({ validateBeforeSave: false });
   createSendToken(user, 200, req, res);
 });
@@ -162,6 +164,9 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Incorrect email or password", 401));
+  }
+  if (!user.verified) {
+    return next(new AppError("Please verify your email before logging in", 401));
   }
   createSendToken(user, 200, req, res);
 });
