@@ -11,14 +11,28 @@ function ContinueLearning({ userId }) {
         axios.get(`http://localhost:5000/api/progress/${userId}`)
             .then(res => {
                 const progress = res.data;
-                // For now, we'll simulate recent lessons. In a real app, you'd fetch from lessons API
-                // and filter based on progress.completedLessons
-                setRecentLessons([
-                    { id: 1, title: "Preamble of the Constitution", progress: 75, lastPosition: "Article 1" },
-                    { id: 2, title: "Fundamental Rights", progress: 50, lastPosition: "Right to Equality" },
-                    { id: 3, title: "Directive Principles", progress: 25, lastPosition: "Article 36" }
-                ]);
-                setLoading(false);
+                const completedLessons = progress.completedLessons || [];
+
+                // Fetch lesson details for completed lessons
+                const lessonPromises = completedLessons.map(async (lessonProgress) => {
+                    try {
+                        const lessonRes = await axios.get(`http://localhost:5000/api/lessons/${lessonProgress.lessonId}`);
+                        return {
+                            ...lessonRes.data,
+                            progress: lessonProgress.isCompleted ? 100 : 50, // Simple progress calculation
+                            lastPosition: lessonProgress.lastPosition || 'Not started'
+                        };
+                    } catch (err) {
+                        console.error(`Error fetching lesson ${lessonProgress.lessonId}:`, err);
+                        return null;
+                    }
+                });
+
+                Promise.all(lessonPromises).then(lessons => {
+                    const validLessons = lessons.filter(l => l !== null);
+                    setRecentLessons(validLessons);
+                    setLoading(false);
+                });
             })
             .catch(err => {
                 console.error(err);
@@ -36,9 +50,9 @@ function ContinueLearning({ userId }) {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {recentLessons.map((lesson) => (
-                        <Link key={lesson.id} to={`/lesson/${lesson.id}`} className="block">
+                        <Link key={lesson._id} to={`/lesson/${lesson._id}`} className="block">
                             <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg hover:shadow-lg transition-shadow">
-                                <h4 className="font-semibold mb-2">{lesson.title}</h4>
+                                <h4 className="font-semibold mb-2">{lesson.lesson_title}</h4>
                                 <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2 mb-2">
                                     <div
                                         className="bg-primary h-2 rounded-full"

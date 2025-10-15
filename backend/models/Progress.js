@@ -6,7 +6,7 @@ const ProgressSchema = new mongoose.Schema({
   streaks: { type: Number, default: 0 },
   badges: { type: [String], default: [] },
   lastViewed: { type: Date, default: Date.now },
-  completedLessons: { type: [String], default: [] } // to track lessons
+  completedLessons: { type: [{ lessonId: String, lastPosition: String }], default: [] } // to track lessons with last position
 });
 
 module.exports = mongoose.model("Progress", ProgressSchema);

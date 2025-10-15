@@ -53,15 +53,35 @@ router.post("/streak-check", async (req, res) => {
     }
 });
 
-// Mark lesson as completed
+// Mark lesson as completed (legacy, now handled in lesson progress)
 router.post("/complete-lesson", async (req, res) => {
     try {
         const { userId, lessonId } = req.body;
-        const progress = await Progress.findOneAndUpdate(
-        { userId },
-        { $addToSet: { completedLessons: lessonId } },
-        { new: true, upsert: true }
-        );
+        let progress = await Progress.findOne({ userId });
+
+        if (!progress) {
+            progress = new Progress({ userId });
+        }
+
+        const lessonIndex = progress.completedLessons.findIndex(l => l.lessonId === lessonId);
+        if (lessonIndex >= 0) {
+            progress.completedLessons[lessonIndex].isCompleted = true;
+        } else {
+            progress.completedLessons.push({ lessonId, lastPosition: '', isCompleted: true });
+        }
+
+        // Award XP
+        progress.xp += 10;
+
+        // Check for badges
+        if (progress.xp >= 100 && !progress.badges.includes('First Steps')) {
+            progress.badges.push('First Steps');
+        }
+        if (progress.completedLessons.filter(l => l.isCompleted).length >= 5 && !progress.badges.includes('Learner')) {
+            progress.badges.push('Learner');
+        }
+
+        await progress.save();
         res.json(progress);
     } catch (err) {
         res.status(500).json({ error: err.message });
