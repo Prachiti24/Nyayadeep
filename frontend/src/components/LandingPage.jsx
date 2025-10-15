@@ -144,7 +144,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <Navbar />
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -388,7 +388,7 @@ export default function LandingPage() {
 
       {/* Dashboard Section - Show when logged in */}
       {isLoggedIn && (
-        <section className="py-16 bg-white dark:bg-gray-900">
+        <section className="py-16 bg-white dark:bg-gray-800">
           <div className="container mx-auto px-4">
             <Dashboard />
           </div>

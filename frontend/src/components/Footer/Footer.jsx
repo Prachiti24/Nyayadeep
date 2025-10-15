@@ -11,7 +11,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="text-gray-500 bg-black py-8 dark:bg-black dark:text-gray-400">
+    <footer className="text-gray-500 bg-gray-800 py-8 dark:bg-gray-800 dark:text-gray-400">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
