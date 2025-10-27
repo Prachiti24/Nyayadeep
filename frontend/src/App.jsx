@@ -48,6 +48,20 @@ import { Chatbot } from './components/Chatbot';
 import Dashboard from './components/Dashboard';
 import StickyChatbotButton from './components/StickyChatbotButton';
 
+//Lessons
+import Lesson1 from "./components/pages/lessons/Lesson1";
+import Lesson2 from "./components/pages/lessons/Lesson2";
+import Lesson3 from "./components/pages/lessons/Lesson3";
+import Lesson4 from "./components/pages/lessons/Lesson4";
+import Lesson5 from "./components/pages/lessons/Lesson5";
+import LessonList from "./components/pages/lessons/LessonList";
+//Articles
+import Lesson1Article from "./components/pages/lessons/articles/Lesson1Article";
+import Lesson2Article from "./components/pages/lessons/articles/Lesson2Article";
+import Lesson3Article from "./components/pages/lessons/articles/Lesson3Article";
+import Lesson4Article from "./components/pages/lessons/articles/Lesson4Article";
+import Lesson5Article from "./components/pages/lessons/articles/Lesson5Article";
+
 const AppWrapper = () => {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
@@ -223,6 +237,21 @@ const AppWrapper = () => {
               </ProtectedRoute>
             }
           />
+
+          <Route path="/lessons" element={<LessonList />} />
+          <Route path="/lessons/lesson1" element={<Lesson1 />} />
+          <Route path="/lessons/lesson2" element={<Lesson2 />} />
+          <Route path="/lessons/lesson3" element={<Lesson3 />} />
+          <Route path="/lessons/lesson4" element={<Lesson4 />} />
+          <Route path="/lessons/lesson5" element={<Lesson5 />} />
+          
+
+          <Route path="/lessons/lesson1/article" element={<Lesson1Article />} />
+          <Route path="/lessons/lesson2/article" element={<Lesson2Article />} />
+          <Route path="/lessons/lesson3/article" element={<Lesson3Article />} />
+          <Route path="/lessons/lesson4/article" element={<Lesson4Article />} />
+          <Route path="/lessons/lesson5/article" element={<Lesson5Article />} />
+          
           <Route
             path="/ebooks"
             element={

@@ -31,6 +31,18 @@ const NavbarMenu = [
   },
   {
     id: 4,
+    title: "Lessons",
+    path: "/lessons",
+    submenu: [
+      { id: 1, title: "Lesson 1: Introduction to Constitution", path: "/lessons/lesson1" },
+      { id: 2, title: "Lesson 2: Preamble Explained", path: "/lessons/lesson2" },
+      { id: 3, title: "Lesson 3: Fundamental Rights", path: "/lessons/lesson3" },
+      { id: 4, title: "Lesson 4: Directive Principles", path: "/lessons/lesson4" },
+      { id: 5, title: "Lesson 5: The Constitution and Gender Justice", path: "/lessons/lesson5" },
+    ],
+  },
+  {
+    id: 5,
     title: "For Citizen",
     path: "/citizen",
     submenu: [
@@ -42,7 +54,7 @@ const NavbarMenu = [
     ],
   },
   {
-    id: 5,
+    id: 6,
     title: "Engage",
     path: "/engage",
     submenu: [
@@ -52,14 +64,15 @@ const NavbarMenu = [
       { id: 4, title: "Video", path: "/engage/video" },
     ],
   },
-  { id: 6, title: "E-Books", path: "/ebooks" },
+  { id: 7, title: "E-Books", path: "/ebooks" },
   {
-    id: 7,
+    id: 8,
     title: "Games",
     path: "/games",
     // ✅ Removed Crossword, Quiz, Word Search, Puzzle
   },
-  { id: 8, title: "Contact Us", path: "/contact" },
+  { id: 9, title: "Contact Us", path: "/contact" },
+  { id: 10, title: "Sanvidhan Saathi", path: "/chatbot" }
 ];
 
 const Navbar = () => {
