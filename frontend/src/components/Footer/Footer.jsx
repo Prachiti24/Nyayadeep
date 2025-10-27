@@ -11,7 +11,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="text-gray-500 bg-gray-800 py-8 dark:bg-gray-800 dark:text-gray-400">
+    <footer className="text-gray-500 bg-gray-800 py-4 dark:bg-gray-800 dark:text-gray-400">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -19,17 +19,17 @@ const Footer = () => {
       >
         <div className="grid items-center grid-cols-1 md:items-start md:grid-cols-2 lg:grid-cols-3 gap-14 md:gap-8 md:justify-normal ">
           {/* First Section */}
-          <div className="space-y-4 max-w-[400px] flex flex-col items-center md:items-start">
-            <h1 className="text-2xl font-bold text-black dark:text-white">Nyayadeep</h1>
+          <div className="space-y-2 max-w-[400px] flex flex-col items-center md:items-start">
+            <h1 className="text-lg font-bold text-black dark:text-white">Nyayadeep</h1>
             <img src={logo} alt="logo" className="w-1/4 h-auto" />
-            <p>Bringing the Constitution Closer to Every Citizen</p>
+            <p className="text-sm">Bringing the Constitution Closer to Every Citizen</p>
           </div>
 
           {/* Second Section */}
           <div className="grid grid-cols-2 gap-10 px-5 text-center md:px-0 md:text-left">
-            <div className="space-y-4">
-              <h1 className="text-2xl font-bold text-white dark:text-white">Explore Features</h1>
-              <ul className="space-y-2 text-lg ">
+            <div className="space-y-2">
+              <h1 className="text-lg font-bold text-white dark:text-white">Explore Features</h1>
+              <ul className="space-y-1 text-sm">
                 <li>
                   <Link
                     to="/citizen"
@@ -77,9 +77,9 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div className="space-y-4">
-              <h1 className="text-2xl font-bold text-white dark:text-white">Links</h1>
-              <ul className="space-y-2 text-lg">
+            <div className="space-y-2">
+              <h1 className="text-lg font-bold text-white dark:text-white">Links</h1>
+              <ul className="space-y-1 text-sm">
                 <li>
                   <Link
                     to="/"
@@ -130,20 +130,20 @@ const Footer = () => {
           </div>
 
           {/* Third Section */}
-          <div className="space-y-4 max-w-[300px] justify-center">
-            <h1 className="text-2xl font-bold text-black dark:text-white text:center md:text-left">Get In Touch</h1>
+          <div className="space-y-2 max-w-[300px] justify-center">
+            <h1 className="text-lg font-bold text-black dark:text-white text:center md:text-left">Get In Touch</h1>
             <div className="flex items-center">
               <input
                 type="text"
                 placeholder="Enter your email"
-                className="w-full p-3 py-4 bg-white dark:bg-gray-800 rounded-s-xl focus:ring-0 focus:outline-none placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                className="w-full p-2 py-3 bg-white dark:bg-gray-800 rounded-s-xl focus:ring-0 focus:outline-none placeholder:text-gray-500 dark:placeholder:text-gray-400 text-sm"
               />
-              <button className="px-6 py-4 font-semibold text-white bg-yellow-500 rounded-e-xl hover:bg-yellow-600 dark:bg-yellow-400 dark:hover:bg-yellow-500">
+              <button className="px-4 py-3 font-semibold text-white bg-yellow-500 rounded-e-xl hover:bg-yellow-600 dark:bg-yellow-400 dark:hover:bg-yellow-500 text-sm">
                 Go
               </button>
             </div>
             {/* Social Icons */}
-            <div className="flex justify-center py-3 space-x-6 text-black dark:text-white md:justify-start">
+            <div className="flex justify-center py-2 space-x-4 text-black dark:text-white md:justify-start">
               <a
                 href="/"
                 className="duration-200 hover:text-yellow-500 dark:hover:text-yellow-400 hover:scale-105"
@@ -169,6 +169,8 @@ const Footer = () => {
                 <FaYoutube />
               </a>
             </div>
+
+
           </div>
         </div>
       </motion.div>

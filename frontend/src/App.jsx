@@ -46,6 +46,7 @@ import CrosswordGame from './components/Games/Crossword';
 import Word from './components/Games/WordSearch';
 import { Chatbot } from './components/Chatbot';
 import Dashboard from './components/Dashboard';
+import StickyChatbotButton from './components/StickyChatbotButton';
 
 const AppWrapper = () => {
   const location = useLocation();
@@ -371,6 +372,7 @@ const AppWrapper = () => {
       </main>
 
       {showNavbarFooter && <Footer />}
+      {showNavbarFooter && <StickyChatbotButton />}
       <ScrollToTop />
       <Analytics />
       <SpeedInsights />

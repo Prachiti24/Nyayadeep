@@ -8,13 +8,30 @@ const ProfileDropdown = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Get user data from localStorage or API
-    const userId = localStorage.getItem('userId');
-    const token = localStorage.getItem('token');
-    if (token && userId) {
-      // You can fetch user details here if needed
-      setUser({ id: userId, name: 'User', email: 'user@example.com' });
-    }
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const res = await fetch("http://localhost:5000/api/auth/getUser", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+        if (data.status === "success") {
+          setUser(data.data.user);
+        } else {
+          console.error("Failed to fetch user data", data);
+        }
+      } catch (err) {
+        console.error("Error fetching user data", err);
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   const handleLogout = () => {
@@ -26,7 +43,7 @@ const ProfileDropdown = () => {
 
   const menuItems = [
     { icon: FaUser, label: 'Profile', action: () => navigate('/profile') },
-    { icon: FaChartLine, label: 'My Progress', action: () => navigate('/progress') },
+    { icon: FaChartLine, label: 'Dashboard', action: () => navigate('/dashboard') },
     { icon: FaTrophy, label: 'Achievements', action: () => navigate('/achievements') },
     { icon: FaCog, label: 'Settings', action: () => navigate('/settings') },
     { icon: FaSignOutAlt, label: 'Logout', action: handleLogout, danger: true },
