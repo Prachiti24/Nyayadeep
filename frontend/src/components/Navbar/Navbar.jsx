@@ -72,7 +72,6 @@ const NavbarMenu = [
     // ✅ Removed Crossword, Quiz, Word Search, Puzzle
   },
   { id: 9, title: "Contact Us", path: "/contact" },
-  { id: 10, title: "Sanvidhan Saathi", path: "/chatbot" }
 ];
 
 const Navbar = () => {

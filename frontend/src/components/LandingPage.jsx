@@ -157,31 +157,17 @@ export default function LandingPage() {
   const games = [
     {
       img: game1,
-      title: "Constitution Quiz",
+      title: "Crossword",
       desc: "Test your knowledge",
       fullDesc:
-        "Challenge yourself with our comprehensive quiz covering all aspects of the Indian Constitution. From preamble to amendments, test your understanding with multiple difficulty levels.",
-    },
-    {
-      img: game2,
-      title: "Article Hunt",
-      desc: "Find the right articles",
-      fullDesc:
-        "A treasure hunt through the Constitution! Search for specific articles and understand their context and application in real-world scenarios.",
+        "Challenge yourself with our crossword puzzle covering key concepts of the Indian Constitution. Fill in the blanks and test your understanding with this interactive game.",
     },
     {
       img: game3,
-      title: "Rights Match",
-      desc: "Match rights with descriptions",
+      title: "Word Search",
+      desc: "Find hidden words",
       fullDesc:
-        "Match fundamental rights with their descriptions and learn about the protections they provide. Perfect for visual learners and quick revision.",
-    },
-    {
-      img: game4,
-      title: "Amendment Timeline",
-      desc: "Chronological amendments",
-      fullDesc:
-        "Journey through the history of constitutional amendments. Understand how the Constitution has evolved and adapted to changing times.",
+        "Find hidden words related to the Indian Constitution in this engaging word search game. Discover terms like Justice, Liberty, Equality, and more!",
     },
   ];
 
