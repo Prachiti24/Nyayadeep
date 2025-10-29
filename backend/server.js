@@ -10,8 +10,8 @@ const questionRoutes = require('./routes/question');
 const dailyFactsRoutes = require('./routes/dailyFacts');
 
 // i added this - tiya
-const crosswordRoutes = require("./routes/crosswordroutes");
-app.use("/api/crosswords", crosswordRoutes);
+// const crosswordRoutes = require("./routes/crosswordroutes");
+// app.use("/api/crosswords", crosswordRoutes);
 
 
 const app = express();
@@ -29,7 +29,7 @@ app.use('/api/progress', progressRoutes);
 app.use('/api/lesson', lessonRoutes);
 app.use('/api/question', questionRoutes);
 app.use('/api/dailyFacts', dailyFactsRoutes);
-app.use('/api/crosswords', crosswordRoutes);
+// app.use('/api/crosswords', crosswordRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
