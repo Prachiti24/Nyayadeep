@@ -61,7 +61,7 @@ const GoogleTranslate = () => {
       id="google_element"
       className="pl-20 google-translate-container md:pl-0"
     >
-      <style jsx>
+      <style>
         {`
           .goog-te-combo {
             display: inline-block;

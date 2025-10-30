@@ -2,6 +2,8 @@ const TelegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
 const Fact = require("./models/Fact");
 const TelegramUser = require("./models/TelegramUser");
+const Progress = require("./models/Progress");
+const User = require("./models/User");
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
@@ -64,7 +66,72 @@ bot.onText(/\/fact/, async (msg) => {
   const chatId = msg.chat.id;
   const fact = await getRandomFact();
   if (!fact) return bot.sendMessage(chatId, "No facts available right now.");
+
+  // Award XP for requesting fact
+  const telegramUser = await TelegramUser.findOne({ telegramId: String(chatId) });
+  if (telegramUser) {
+    // Find user by telegramId
+    const user = await User.findOne({ telegramId: String(chatId) });
+    if (user) {
+      let progress = await Progress.findOne({ userId: user._id });
+      if (!progress) {
+        progress = new Progress({ userId: user._id });
+      }
+
+      progress.xp += 5; // 5 XP for requesting a fact
+
+      // Update streak
+      const today = new Date();
+      if (!progress.lastViewed || (today - new Date(progress.lastViewed)) / (1000 * 60 * 60 * 24) >= 1) {
+        const diff = progress.lastViewed ? (today - new Date(progress.lastViewed)) / (1000 * 60 * 60 * 24) : 0;
+        if (diff <= 2) {
+          progress.streaks += 1;
+        } else {
+          progress.streaks = 1;
+        }
+        progress.lastViewed = today;
+      }
+
+      await progress.save();
+
+      // Sync with User model
+      await User.findByIdAndUpdate(user._id, {
+        $inc: { xpTotal: 5 },
+        lastAccessedAt: new Date()
+      });
+    }
+  }
+
   await sendFactToUser(chatId, fact);
+});
+
+// /progress command
+bot.onText(/\/progress/, async (msg) => {
+  const chatId = msg.chat.id;
+
+  const telegramUser = await TelegramUser.findOne({ telegramId: String(chatId) });
+  if (!telegramUser) {
+    return bot.sendMessage(chatId, "Please use /start first to connect your account.");
+  }
+
+  const user = await User.findOne({ telegramId: String(chatId) });
+  if (!user) {
+    return bot.sendMessage(chatId, "Your Telegram account is not linked to a Nyayadeep account. Please log in to the web app and connect your Telegram ID in your profile.");
+  }
+
+  const progress = await Progress.findOne({ userId: user._id });
+  if (!progress) {
+    return bot.sendMessage(chatId, "No progress data found. Start learning to see your progress!");
+  }
+
+  const text = `📊 *Your Progress*\n\n` +
+    `⭐ XP: ${progress.xp}\n` +
+    `🔥 Current Streak: ${progress.streaks} days\n` +
+    `📚 Completed Lessons: ${progress.completedLessons.filter(l => l.isCompleted).length}\n` +
+    `🏆 Badges: ${progress.badges.length > 0 ? progress.badges.join(', ') : 'None yet'}\n\n` +
+    `Keep learning to earn more XP and badges!`;
+
+  await bot.sendMessage(chatId, text, { parse_mode: "Markdown" });
 });
 
 module.exports = { bot, sendDailyFact };

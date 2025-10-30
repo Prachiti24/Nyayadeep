@@ -1,28 +1,53 @@
 const express = require('express');
 const Lesson = require('../models/Lesson');
-const LessonProgress = require('../models/LessonProgress');
+const Progress = require('../models/Progress');
 const router = express.Router();
-const fetchUser = require('../middleware/fetchUser');
 
-// Get lessons in a section (published)
-router.get('/section/:sectionId', async (req, res) => {
+// Get lessons in a part
+router.get('/part/:partId', async (req, res) => {
   try {
-    const lessons = await Lesson.find({ sectionId: req.params.sectionId, isPublished: true }).sort('displayOrder');
+    const lessons = await Lesson.find({ part_id: req.params.partId }).sort('lesson_number');
     res.json(lessons);
   } catch (err) {
     res.status(500).json({ error: 'Server error' });
   }
 });
 
-// Mark lesson progress
-router.post('/progress', fetchUser, async (req, res) => {
+// Get a single lesson by ID
+router.get('/:lessonId', async (req, res) => {
   try {
-    const { lessonId, isCompleted } = req.body;
-    const progress = await LessonProgress.findOneAndUpdate(
-      { userId: req.user.id, lessonId },
-      { isCompleted, lastViewedAt: Date.now(), completedAt: isCompleted ? Date.now() : null },
-      { upsert: true, new: true }
-    );
+    const lesson = await Lesson.findById(req.params.lessonId).populate('part_id');
+    if (!lesson) return res.status(404).json({ error: 'Lesson not found' });
+    res.json(lesson);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Update lesson progress (last position)
+router.post('/progress', async (req, res) => {
+  try {
+    const { userId, lessonId, lastPosition, isCompleted } = req.body;
+    let progress = await Progress.findOne({ userId });
+
+    if (!progress) {
+      progress = new Progress({ userId });
+    }
+
+    const lessonIndex = progress.completedLessons.findIndex(l => l.lessonId === lessonId);
+    if (lessonIndex >= 0) {
+      progress.completedLessons[lessonIndex].lastPosition = lastPosition;
+      if (isCompleted && !progress.completedLessons[lessonIndex].isCompleted) {
+        progress.completedLessons[lessonIndex].isCompleted = true;
+        // Award XP for completion
+        progress.xp += 10;
+      }
+    } else {
+      progress.completedLessons.push({ lessonId, lastPosition, isCompleted: !!isCompleted });
+      if (isCompleted) progress.xp += 10;
+    }
+
+    await progress.save();
     res.json(progress);
   } catch (err) {
     res.status(500).json({ error: 'Server error' });

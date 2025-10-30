@@ -13,24 +13,37 @@ const {
 // Add a new fact
 // -----------------------------
 
+router.get('/random', async (req, res) => {
+  try {
+    const facts = await Fact.find({ is_active: true });
+    if (!facts.length) return res.status(404).json({ error: 'No active facts' });
+
+    // Pick a random one
+    const randomFact = facts[Math.floor(Math.random() * facts.length)];
+
+    res.json(randomFact);
+  } catch (err) {
+    console.error("Error fetching random fact:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
 router.post("/", async (req, res) => {
   try {
     const { fact_text, source, related_unit_id, is_active } = req.body;
 
-    const fact = new Fact({
-      fact_text,
-      source,
-      related_unit_id,
-      is_active: is_active ?? true,
-    });
+    // Pick a random one
+    const randomFact = facts[Math.floor(Math.random() * facts.length)];
 
     await fact.save();
     res.status(201).json({ message: "Fact added successfully!", fact });
   } catch (err) {
-    console.error("Error adding fact:", err);
+    console.error("Error fetching random fact:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
+
 
 // -----------------------------
 // Get all facts

@@ -1,12 +1,13 @@
-import { motion } from "framer-motion";
+import React from "react";
 import { IoIosArrowRoundForward } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import Blob from "../../assets/blob.svg";
 import HeroPng from "../../assets/hero2.png";
 import Banner from "../Banner/Banner";
 import Banner2 from "../Banner/Banner2";
 import Services from "../Services/Services";
 import Subscribe from "../Subscribe/Subscribe";
+import { useNavigate } from "react-router-dom";
 
 export const FadeUp = (delay) => {
   return {
@@ -109,14 +110,14 @@ const ServiceClick = () => {
 
           {/* Hero Image */}
           <div className="flex items-center justify-center">
-          <motion.img
-            initial={{ x: 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4, ease: "easeInOut" }}
-            src={HeroPng}
-            alt="Hero Illustration"
-            className="w-[480px] h-[480px] relative z-10 drop-shadow-2xl"
-          />
+            <motion.img
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4, ease: "easeInOut" }}
+              src={HeroPng}
+              alt="Hero Illustration"
+              className="w-[400px] xl:w-[600px] relative z-10 drop-shadow-2xl"
+            />
             <motion.img
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}

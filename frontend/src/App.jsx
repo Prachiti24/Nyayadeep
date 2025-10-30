@@ -39,11 +39,28 @@ import Subscribe from "./components/Subscribe/Subscribe";
 import VerifyOtp from './components/VerifyOtp';
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import HomeRedirect from './components/HomeRedirect';
 import LandingPage from './components/LandingPage';
 import ProfilePage from './components/ProfilePage';
 import CrosswordGame from './components/Games/Crossword';
 import Word from './components/Games/WordSearch';
 import { Chatbot } from './components/Chatbot';
+import Dashboard from './components/Dashboard';
+import StickyChatbotButton from './components/StickyChatbotButton';
+
+//Lessons
+import Lesson1 from "./components/pages/lessons/Lesson1";
+import Lesson2 from "./components/pages/lessons/Lesson2";
+import Lesson3 from "./components/pages/lessons/Lesson3";
+import Lesson4 from "./components/pages/lessons/Lesson4";
+import Lesson5 from "./components/pages/lessons/Lesson5";
+import LessonList from "./components/pages/lessons/LessonList";
+//Articles
+import Lesson1Article from "./components/pages/lessons/articles/Lesson1Article";
+import Lesson2Article from "./components/pages/lessons/articles/Lesson2Article";
+import Lesson3Article from "./components/pages/lessons/articles/Lesson3Article";
+import Lesson4Article from "./components/pages/lessons/articles/Lesson4Article";
+import Lesson5Article from "./components/pages/lessons/articles/Lesson5Article";
 
 const AppWrapper = () => {
   const location = useLocation();
@@ -59,7 +76,7 @@ const AppWrapper = () => {
   }, []);
 
   // Define routes where Navbar + Footer should NOT be shown
-  const noNavbarRoutes = ["/", "/signin", "/verify-otp"];
+  const noNavbarRoutes = ["/", "/signin", "/verify-otp", "/home"];
 
   const showNavbarFooter = !noNavbarRoutes.includes(location.pathname);
 
@@ -69,9 +86,10 @@ const AppWrapper = () => {
       <main className="text-black bg-white dark:bg-gray-800 dark:text-white">
         <Routes>
           {/* Public routes */}
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<HomeRedirect />} />
           <Route path="/signin" element={<LoginPage />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />
+          <Route path="/home" element={<LandingPage />} />
 
           {/* Protected routes */}
           <Route
@@ -82,6 +100,15 @@ const AppWrapper = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="/crossword"
             element={
@@ -210,6 +237,21 @@ const AppWrapper = () => {
               </ProtectedRoute>
             }
           />
+
+          <Route path="/lessons" element={<LessonList />} />
+          <Route path="/lessons/lesson1" element={<Lesson1 />} />
+          <Route path="/lessons/lesson2" element={<Lesson2 />} />
+          <Route path="/lessons/lesson3" element={<Lesson3 />} />
+          <Route path="/lessons/lesson4" element={<Lesson4 />} />
+          <Route path="/lessons/lesson5" element={<Lesson5 />} />
+          
+
+          <Route path="/lessons/lesson1/article" element={<Lesson1Article />} />
+          <Route path="/lessons/lesson2/article" element={<Lesson2Article />} />
+          <Route path="/lessons/lesson3/article" element={<Lesson3Article />} />
+          <Route path="/lessons/lesson4/article" element={<Lesson4Article />} />
+          <Route path="/lessons/lesson5/article" element={<Lesson5Article />} />
+          
           <Route
             path="/ebooks"
             element={
@@ -359,6 +401,7 @@ const AppWrapper = () => {
       </main>
 
       {showNavbarFooter && <Footer />}
+      {showNavbarFooter && <StickyChatbotButton />}
       <ScrollToTop />
       <Analytics />
       <SpeedInsights />

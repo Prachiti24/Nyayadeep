@@ -42,7 +42,9 @@ const LoginPage = () => {
 
       if (json.token) {
         localStorage.setItem("token", json.token);
-        navigate("/dashboard"); // ✅ handled inside Vite app itself
+        localStorage.setItem("userId", json.data.user._id); // ✅ save userId
+        localStorage.setItem("userName", json.data.user.name); // optional
+        navigate("/", { replace: true }); // ✅ redirect to home page (landing page with dashboard)
       } else {
         alert(json.message || "Invalid credentials");
       }
@@ -79,7 +81,7 @@ const LoginPage = () => {
   
   return (
     <div id="first-login">
-      <h2>Nyaydeep</h2>
+      <h2>Nyayadeep</h2>
       <div
         className={`container ${isRightPanelActive ? "right-panel-active" : ""}`}
         id="container"

@@ -87,11 +87,11 @@ const otpVerificationEmail = (name, otp) => {
     <body>
         <div class="container">
             <div class="welcome-header">
-                <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 500;">Welcome to Nyaydeep</h1>
+                <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 500;">Welcome to Nyayadeep</h1>
             </div>
             <div class="content">
                 <p style="font-size: 16px; margin-bottom: 20px;">Dear ${name},</p>
-                <p style="font-size: 16px; margin-bottom: 30px;">Thank you for creating an account with Nyaydeep. Please use the verification code below to complete your registration:</p>
+                <p style="font-size: 16px; margin-bottom: 30px;">Thank you for creating an account with Nyayadeep. Please use the verification code below to complete your registration:</p>
                 <div class="otp-container">
                     <div class="otp-text">${otp}</div>
                 </div>
@@ -102,14 +102,14 @@ const otpVerificationEmail = (name, otp) => {
                         <li style="margin-bottom: 8px;">Never share this code with anyone</li>
                     </ul>
                 </div>
-                <p style="font-size: 16px; margin: 30px 0 0 0;">Thanks,<br>The Nyaydeep Team</p>
+                <p style="font-size: 16px; margin: 30px 0 0 0;">Thanks,<br>The Nyayadeep Team</p>
             </div>
             <div class="footer">
                 <div class="automated-message">
                     This is an automated email. Please do not reply to this message.
                 </div>
                 <div class="copyright">
-                    © ${new Date().getFullYear()} Nyaydeep. All rights reserved.
+                    © ${new Date().getFullYear()} Nyayadeep. All rights reserved.
                 </div>
             </div>
         </div>
@@ -144,14 +144,14 @@ const passwordResetEmail = (user, resetURL) => {
                         This link will expire in 30 minutes. If you didn't request this password reset, please ignore this email or contact support if you have concerns.
                     </p>
                 </div>
-                <p style="font-size: 16px; margin: 30px 0 0 0;">Thanks,<br>The Nyaydeep Team</p>
+                <p style="font-size: 16px; margin: 30px 0 0 0;">Thanks,<br>The Nyayadeep Team</p>
             </div>
             <div class="footer">
                 <div class="automated-message">
                     This is an automated email. Please do not reply to this message.
                 </div>
                 <div class="copyright">
-                    © ${new Date().getFullYear()} Nyaydeep. All rights reserved.
+                    © ${new Date().getFullYear()} Nyayadeep. All rights reserved.
                 </div>
             </div>
         </div>
@@ -256,8 +256,8 @@ const dailyFactEmail = (user, fact) => {
               <p>Stay curious and enjoy your day! 🌟</p>
           </div>
           <div class="footer">
-              This is an automated email from Nyaydeep. Please do not reply.<br/>
-              © ${new Date().getFullYear()} Nyaydeep. All rights reserved.
+              This is an automated email from Nyayadeep. Please do not reply.<br/>
+              © ${new Date().getFullYear()} Nyayadeep. All rights reserved.
           </div>
       </div>
   </body>
