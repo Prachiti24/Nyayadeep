@@ -44,11 +44,26 @@ export default function LandingPage() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [dailyFact, setDailyFact] = useState(null);
 
   const caseStudiesRef = useRef(null);
   const podcastsRef = useRef(null);
   const gamesRef = useRef(null);
   const communityRef = useRef(null);
+
+  useEffect(() => {
+    const fetchDailyFact = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/dailyFacts/random"); // ✅ adjust backend URL if needed
+        const data = await res.json();
+        setDailyFact(data);
+      } catch (err) {
+        console.error("Error fetching daily fact:", err);
+      }
+    };
+
+    fetchDailyFact();
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -266,6 +281,41 @@ export default function LandingPage() {
                 </motion.div>
               ))}
             </div>
+
+            {/* 🌟 Daily Fact Tile */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 }}
+              className="bg-gradient-to-r from-yellow-100 to-yellow-200 dark:from-yellow-500/20 dark:to-yellow-400/10 
+             backdrop-blur-sm rounded-lg p-4 border border-yellow-300 dark:border-yellow-500/30 
+             shadow-md flex items-start gap-3 cursor-pointer hover:shadow-lg transition-all mb-6"
+            >
+              <div className="text-3xl text-yellow-500 dark:text-yellow-400">
+                🌞
+              </div>
+              <div>
+                <h3 className="font-bold text-gray-800 dark:text-white text-sm mb-1">
+                  Daily Fact
+                </h3>
+                {dailyFact ? (
+                  <>
+                    <p className="text-gray-700 dark:text-gray-300 text-sm mb-1">
+                      {dailyFact.fact_text}
+                    </p>
+                    {dailyFact.source && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 italic">
+                        — {dailyFact.source}
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-sm text-gray-500">Loading your fact...</p>
+                )}
+              </div>
+            </motion.div>
+
+
 
             {/* CTA Button */}
             {!isLoggedIn ? (

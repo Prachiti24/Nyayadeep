@@ -1,49 +1,80 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-function ProgressTracker({ userId }) {
-    const [progress, setProgress] = useState(null);
-    const [streakUpdated, setStreakUpdated] = useState(false);
+function ProgressTracker() {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchProgress();
-        // Check streak on component mount - only once per session
-        if (!streakUpdated) {
-            axios.post("http://localhost:5000/api/progress/streak-check", { userId })
-                .then(() => {
-                    setStreakUpdated(true);
-                    fetchProgress();
-                })
-                .catch(err => console.error(err));
-        }
-    }, [userId]); // Removed streakUpdated from dependencies to prevent re-triggering
+        const fetchUserData = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                setLoading(false);
+                return;
+            }
 
-    const fetchProgress = () => {
-        axios.get(`http://localhost:5000/api/progress/${userId}`)
-            .then(res => setProgress(res.data))
-            .catch(err => console.error(err));
-    };
+            try {
+                const res = await fetch("http://localhost:5000/api/auth/getUser", {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
 
-    if (!progress) return <div className="flex justify-center items-center p-4"><p>Loading progress...</p></div>;
+                const data = await res.json();
+                if (data.status === "success") {
+                    setUser(data.data.user);
+                } else {
+                    console.error("Failed to fetch user data", data);
+                }
+            } catch (err) {
+                console.error("Error fetching user data", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
+    if (loading)
+        return (
+            <div className="flex justify-center items-center p-4">
+                <p>Loading progress...</p>
+            </div>
+        );
+
+    if (!user)
+        return (
+            <div className="flex justify-center items-center p-4">
+                <p>User not found.</p>
+            </div>
+        );
 
     return (
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <h3 className="text-2xl font-bold mb-4 text-primary">📈 Your Progress</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="text-center">
-                    <p className="text-3xl font-bold text-secondary">{progress.xp || 0}</p>
+                    <p className="text-3xl font-bold text-secondary">
+                        {user.xpTotal || 0}
+                    </p>
                     <p className="text-sm text-gray-600 dark:text-gray-400">XP Points</p>
                 </div>
                 <div className="text-center">
-                    <p className="text-3xl font-bold text-red-500">🔥 {progress.streaks || 0}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Day Streak</p>
+                    <p className="text-3xl font-bold text-red-500">
+                        🔥 {user.currentStreakDays || 0}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Current Streak</p>
                 </div>
                 <div className="text-center">
-                    <p className="text-3xl font-bold text-yellow-500">🏆 {progress.badges?.length || 0}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Badges</p>
+                    <p className="text-3xl font-bold text-yellow-500">
+                        🏆 {user.longestStreakDays || 0}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Longest Streak</p>
                 </div>
             </div>
-            {progress.badges && progress.badges.length > 0 && (
+            {/* {progress.badges && progress.badges.length > 0 && (
                 <div className="mt-4">
                     <h4 className="font-semibold mb-2">Badges Earned:</h4>
                     <div className="flex flex-wrap gap-2">
@@ -54,9 +85,10 @@ function ProgressTracker({ userId }) {
                         ))}
                     </div>
                 </div>
-            )}
+            )} */}
             <div className="mt-4">
-                <h4 className="font-semibold mb-2">Completed Lessons: {progress.completedLessons?.length || 0}</h4>
+                {/* // {progress.completedLessons?.length || 0} */}
+                <h4 className="font-semibold mb-2">Completed Lessons: 0 </h4>
             </div>
         </div>
     );

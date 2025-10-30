@@ -1,7 +1,7 @@
 const cron = require("node-cron");
 const axios = require("axios");
 
-cron.schedule("39 16 * * *", async () => {
+cron.schedule("02 19 * * *", async () => {
   try {
     console.log("Triggering /daily-fact/send API at 3:47 PM...");
     const { data } = await axios.post("http://localhost:5000/api/facts/send", {});
