@@ -1,9 +1,8 @@
-require("dotenv").config();
 const mongoose = require("mongoose");
-const Fact = require("../models/Fact");
-const ConstitutionUnit = require("../models/ConstitutionUnit");
+const dotenv = require("dotenv");
+const Fact = require("../models/Fact.js");
 
-const MONGO_URI = process.env.MONGODB_URI;
+dotenv.config({ path: "../.env" }); // ✅ important — go up one level
 
 async function seed() {
   await mongoose.connect(MONGO_URI);
@@ -81,4 +80,4 @@ async function seed() {
   console.log("✅ Disconnected");
 }
 
-seed().catch(console.error);
+seed();

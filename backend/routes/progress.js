@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Progress = require("../models/Progress");
-
+const User = require("../models/User")
 // GET user progress
 router.get("/:userId", async (req, res) => { // authMiddleware removed for testing
     try {
@@ -109,15 +109,15 @@ router.post("/complete-lesson", async (req, res) => {
 
 // Leaderboard
 router.get("/leaderboard/top", async (req, res) => {
-    try {
-        const leaderboard = await Progress.find({})
-        .populate("userId", "name email")
-        .sort({ xp: -1 })
-        .limit(10);
-        res.json(leaderboard);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+  try {
+    const leaderboard = await User.find({}, "name email xpTotal currentStreakDays longestStreakDays")
+      .sort({ xpTotal: -1 })
+      .limit(10);
+
+    res.status(200).json(leaderboard);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 module.exports = router;

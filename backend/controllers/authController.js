@@ -129,7 +129,7 @@ exports.verifyOtp = catchAsync(async (req, res, next) => {
     .update(req.body.Emailotp)
     .digest("hex");
 
-  const realEmail = decoded.email.slice(16);
+  const realEmail = decoded.email.slice(17);
   let user = await User.findOne({
     email: decoded.email,
     Emailotp: hashedOtp,

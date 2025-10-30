@@ -135,7 +135,7 @@ const ContactUs = () => {
       </div>
 
       {/* Team Details */}
-      <motion.div
+      {/* <motion.div
         className="w-full max-w-4xl p-6 mx-auto mb-8 border border-yellow-200 shadow-2xl sm:p-8 bg-white/90 rounded-2xl dark:bg-gray-800/90 dark:border-yellow-700"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -145,7 +145,6 @@ const ContactUs = () => {
           <span role="img" aria-label="team"></span> Team
         </h2>
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-5">
-          {/* Shreya */}
           <div className="flex flex-col items-center">
             <img
               src="https://avatars.githubusercontent.com/u/167011296?v=4"
@@ -154,7 +153,6 @@ const ContactUs = () => {
             />
             <span className="mt-2 font-semibold text-center text-gray-800 dark:text-gray-100">Shreya</span>
           </div>
-          {/* Sreya */}
           <div className="flex flex-col items-center">
             <img
               src="https://avatars.githubusercontent.com/u/167749636?v=4"
@@ -163,7 +161,6 @@ const ContactUs = () => {
             />
             <span className="mt-2 font-semibold text-center text-gray-800 dark:text-gray-100">Sreya</span>
           </div>
-          {/* Prachiti */}
           <div className="flex flex-col items-center">
             <img
               src="https://avatars.githubusercontent.com/u/142989448?v=4"
@@ -172,7 +169,6 @@ const ContactUs = () => {
             />
             <span className="mt-2 font-semibold text-center text-gray-800 dark:text-gray-100">Prachiti</span>
           </div>
-          {/* Tiya */}
           <div className="flex flex-col items-center">
             <img
               src="https://avatars.githubusercontent.com/u/180189764?v=4"
@@ -181,7 +177,6 @@ const ContactUs = () => {
             />
             <span className="mt-2 font-semibold text-center text-gray-800 dark:text-gray-100">Tiya</span>
           </div>
-          {/* Tanaya */}
           <div className="flex flex-col items-center">
             <img
               src="https://avatars.githubusercontent.com/u/137044290?v=4"
@@ -191,7 +186,7 @@ const ContactUs = () => {
             <span className="mt-2 font-semibold text-center text-gray-800 dark:text-gray-100">Tanaya</span>
           </div>
         </div>
-      </motion.div>
+      </motion.div> */}
 
       {/* Popup Message */}
       {showPopup && (

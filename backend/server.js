@@ -8,6 +8,12 @@ const progressRoutes = require('./routes/progress');
 const lessonRoutes = require('./routes/lesson');
 const questionRoutes = require('./routes/question');
 const dailyFactsRoutes = require('./routes/dailyFacts');
+const crosswordRoutes = require('./routes/crosswordroute');
+const factRoutes = require('./routes/dailyFacts'); 
+
+const { sendDailyFact } = require("./telegramBot"); // Telegram bot functions
+require("./jobs/dailyFactCron"); // start scheduler
+
 
 // i added this - tiya
 // const crosswordRoutes = require("./routes/crosswordroutes");
@@ -30,6 +36,18 @@ app.use('/api/auth', authRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/lesson', lessonRoutes);
 app.use('/api/question', questionRoutes);
+app.use('/api/facts', factRoutes); 
+app.use('/api/crosswords', crosswordRoutes);
+
+// Manual endpoint to trigger facts (optional)
+app.post("/api/admin/send-fact-now", async (req, res) => {
+  try {
+    const result = await sendDailyFact({ delayMs: 150 });
+    return res.status(200).json({ success: true, result });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
+});
 app.use('/api/dailyFacts', dailyFactsRoutes);
 app.use('/api/quizProgress', quizProgressRoutes);
 // app.use('/api/crosswords', crosswordRoutes);

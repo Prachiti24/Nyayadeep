@@ -31,7 +31,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
       <div className="flex-1 space-y-2">
         <div className="flex items-center gap-2">
           <span className="font-medium text-sm text-gray-700 dark:text-gray-300">
-            {isAI ? 'AI Assistant' : 'You'}
+            {isAI ? 'Sanvidhan Saathi' : 'You'}
           </span>
           <span className="text-xs text-gray-500">
             {formatDistanceToNow(message.timestamp, { addSuffix: true })}
