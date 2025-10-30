@@ -19,6 +19,8 @@ require("./jobs/dailyFactCron"); // start scheduler
 // const crosswordRoutes = require("./routes/crosswordroutes");
 // app.use("/api/crosswords", crosswordRoutes);
 
+const quizProgressRoutes = require('./routes/quizProgress');
+
 
 const app = express();
 
@@ -46,6 +48,9 @@ app.post("/api/admin/send-fact-now", async (req, res) => {
     return res.status(500).json({ success: false, error: err.message });
   }
 });
+app.use('/api/dailyFacts', dailyFactsRoutes);
+app.use('/api/quizProgress', quizProgressRoutes);
+// app.use('/api/crosswords', crosswordRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;

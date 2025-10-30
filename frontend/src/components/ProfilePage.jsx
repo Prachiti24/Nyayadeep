@@ -21,35 +21,35 @@ export default function ProfilePage() {
   };
 
   const handleResetPassword = async () => {
-  if (passwordData.password !== passwordData.passwordConfirm) {
-    alert("Passwords do not match!");
-    return;
-  }
-
-  try {
-    const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:5000/api/auth/resetPassword", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(passwordData),
-    });
-
-    const data = await res.json();
-    if (data.status === "success") {
-      alert("Password updated successfully!");
-      setShowResetModal(false);
-      localStorage.setItem("token", data.token); // update JWT
-    } else {
-      alert(data.message || "Reset failed");
+    if (passwordData.password !== passwordData.passwordConfirm) {
+      alert("Passwords do not match!");
+      return;
     }
-  } catch (err) {
-    console.error(err);
-    alert("Something went wrong");
-  }
-};
+
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch("http://localhost:5000/api/auth/resetPassword", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(passwordData),
+      });
+
+      const data = await res.json();
+      if (data.status === "success") {
+        alert("Password updated successfully!");
+        setShowResetModal(false);
+        localStorage.setItem("token", data.token); // update JWT
+      } else {
+        alert(data.message || "Reset failed");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong");
+    }
+  };
 
 
 
@@ -226,13 +226,6 @@ export default function ProfilePage() {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col-sm-3">
-                    <h6 className="mb-0">Telegram Id</h6>
-                  </div>
-                  <div className="col-sm-9 text-secondary">{user ? user.telegramId : "NA"}</div>
-                </div>
-                <hr />
-                <div className="row">
                   <div className="col-sm-12">
                     <button
                       className="btn btn-info"
@@ -245,142 +238,6 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* Status */}
-            <div className="row gutters-sm">
-              <div className="col-sm-6 mb-3">
-                <div className="card h-100">
-                  <div className="card-body">
-                    <h6 className="d-flex align-items-center mb-3">
-                      <i className="material-icons text-info mr-2">Games</i>
-                      Progress Status
-                    </h6>
-                    <small>Snake And Ladder</small>
-                    <div className="progress mb-3" style={{ height: "5px" }}>
-                      <div
-                        className="progress-bar bg-primary"
-                        role="progressbar"
-                        style={{ width: "80%" }}
-                        aria-valuenow="80"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <small>Leader Board</small>
-                    <div className="progress mb-3" style={{ height: "5px" }}>
-                      <div
-                        className="progress-bar bg-primary"
-                        role="progressbar"
-                        style={{ width: "72%" }}
-                        aria-valuenow="72"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <small>MCQ</small>
-                    <div className="progress mb-3" style={{ height: "5px" }}>
-                      <div
-                        className="progress-bar bg-primary"
-                        role="progressbar"
-                        style={{ width: "89%" }}
-                        aria-valuenow="89"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <small>Match the Pair</small>
-                    <div className="progress mb-3" style={{ height: "5px" }}>
-                      <div
-                        className="progress-bar bg-primary"
-                        role="progressbar"
-                        style={{ width: "55%" }}
-                        aria-valuenow="55"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <small>Spin the Wheel</small>
-                    <div className="progress mb-3" style={{ height: "5px" }}>
-                      <div
-                        className="progress-bar bg-primary"
-                        role="progressbar"
-                        style={{ width: "66%" }}
-                        aria-valuenow="66"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/*  Project Status */}
-              <div className="col-sm-6 mb-3">
-                <div className="card h-100">
-                  <div className="card-body">
-                    <h6 className="d-flex align-items-center mb-3">
-                      <i className="material-icons text-info mr-2">Lesson Progress</i>
-                      Status
-                    </h6>
-                    <small>Article 1</small>
-                    <div className="progress mb-3" style={{ height: "5px" }}>
-                      <div
-                        className="progress-bar bg-primary"
-                        role="progressbar"
-                        style={{ width: "80%" }}
-                        aria-valuenow="80"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <small>Article 2</small>
-                    <div className="progress mb-3" style={{ height: "5px" }}>
-                      <div
-                        className="progress-bar bg-primary"
-                        role="progressbar"
-                        style={{ width: "72%" }}
-                        aria-valuenow="72"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <small>Article 3</small>
-                    <div className="progress mb-3" style={{ height: "5px" }}>
-                      <div
-                        className="progress-bar bg-primary"
-                        role="progressbar"
-                        style={{ width: "89%" }}
-                        aria-valuenow="89"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <small>Article 4</small>
-                    <div className="progress mb-3" style={{ height: "5px" }}>
-                      <div
-                        className="progress-bar bg-primary"
-                        role="progressbar"
-                        style={{ width: "55%" }}
-                        aria-valuenow="55"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <small>Article 5</small>
-                    <div className="progress mb-3" style={{ height: "5px" }}>
-                      <div
-                        className="progress-bar bg-primary"
-                        role="progressbar"
-                        style={{ width: "66%" }}
-                        aria-valuenow="66"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* End Status */}
 
           </div>
         </div>

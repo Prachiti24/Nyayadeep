@@ -315,6 +315,32 @@ export default function LandingPage() {
               </div>
             </motion.div>
 
+            {/* 🌐 Telegram Bot Tile — Visible only when logged in */}
+            {isLoggedIn && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.6 }}
+                onClick={() => window.open("https://t.me/Nyayadeep_bot", "_blank")}
+                className="bg-gradient-to-r from-blue-100 to-blue-200 dark:from-blue-500/20 dark:to-blue-400/10 
+       backdrop-blur-sm rounded-lg p-4 border border-blue-300 dark:border-blue-500/30 
+       shadow-md flex items-center gap-3 cursor-pointer hover:shadow-lg hover:scale-[1.02] transition-all w-fit mb-6"
+              >
+                <div className="text-3xl text-blue-500 dark:text-blue-400">
+                  📢
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-800 dark:text-white text-sm mb-1">
+                    Subscribe to Telegram Bot
+                  </h3>
+                  <p className="text-xs text-gray-600 dark:text-gray-300">
+                    Get daily reminders and updates on Telegram!
+                  </p>
+                </div>
+              </motion.div>
+            )}
+
+
 
 
             {/* CTA Button */}
