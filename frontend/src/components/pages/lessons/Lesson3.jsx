@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Lesson3 = () => {
@@ -74,26 +73,7 @@ const Lesson3 = () => {
     },
   ];
 
-  const [selectedAnswers, setSelectedAnswers] = useState(
-    Array(questions.length).fill("")
-  );
-  const [submitted, setSubmitted] = useState(false);
-  const [score, setScore] = useState(0);
-
-  const handleOptionChange = (qIndex, option) => {
-    const newAnswers = [...selectedAnswers];
-    newAnswers[qIndex] = option;
-    setSelectedAnswers(newAnswers);
-  };
-
-  const handleSubmit = () => {
-    let newScore = 0;
-    questions.forEach((q, i) => {
-      if (selectedAnswers[i] === q.answer) newScore += 1;
-    });
-    setScore(newScore);
-    setSubmitted(true);
-  };
+  // Quiz is rendered by <QuizLesson /> (handles answers, submit and progress saving)
 
   const goToArticle = () => navigate("/lessons/lesson3/article");
 
@@ -298,44 +278,7 @@ const Lesson3 = () => {
         </button>
       </div>
 
-      {/* Quiz Box */}
-      <div className="p-4 border-2 border-green-500 rounded resize-y overflow-auto max-h-[400px]">
-        <h2 className="text-2xl font-semibold mb-4">Quick Quiz</h2>
-        {questions.map((q, qIndex) => (
-          <div key={qIndex} className="mb-6">
-            <p className="mb-2 font-semibold">
-              {qIndex + 1}. {q.question}
-            </p>
-            <div className="space-y-2">
-              {q.options.map((option) => (
-                <label key={option} className="block">
-                  <input
-                    type="radio"
-                    value={option}
-                    checked={selectedAnswers[qIndex] === option}
-                    onChange={() => handleOptionChange(qIndex, option)}
-                    className="mr-2"
-                  />
-                  {option}
-                </label>
-              ))}
-            </div>
-          </div>
-        ))}
-
-        <button
-          onClick={handleSubmit}
-          className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-        >
-          Submit Quiz
-        </button>
-
-        {submitted && (
-          <div className="mt-6 text-lg font-semibold">
-            Your score: {score} / {questions.length}
-          </div>
-        )}
-      </div>
+      {/* (Quiz moved to Citizens pages) */}
     </div>
   );
 };

@@ -9,7 +9,7 @@ export const Header: React.FC = () => {
     <header className="border-b dark:border-gray-700 bg-white dark:bg-gray-900 p-4">
       <div className="max-w-4xl mx-auto flex items-center justify-between">
         <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-          AI ChatBot
+          Savidhan Saathi
         </h1>
         <div className="flex items-center gap-4">
           <button

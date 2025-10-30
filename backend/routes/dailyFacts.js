@@ -1,8 +1,18 @@
-const express = require('express');
-const Fact = require('../models/Fact');
+// routes/factEmail.js
+const express = require("express");
 const router = express.Router();
+const User = require("../models/User");
+const Fact = require("../models/Fact");
+const sendEmail = require("./../utils/email");
 
-// ✅ Get a random active fact
+const {
+  dailyFactEmail
+} = require("./../helpers/EmailTemplate");
+
+// -----------------------------
+// Add a new fact
+// -----------------------------
+
 router.get('/random', async (req, res) => {
   try {
     const facts = await Fact.find({ is_active: true });
@@ -12,6 +22,22 @@ router.get('/random', async (req, res) => {
     const randomFact = facts[Math.floor(Math.random() * facts.length)];
 
     res.json(randomFact);
+  } catch (err) {
+    console.error("Error fetching random fact:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
+router.post("/", async (req, res) => {
+  try {
+    const { fact_text, source, related_unit_id, is_active } = req.body;
+
+    // Pick a random one
+    const randomFact = facts[Math.floor(Math.random() * facts.length)];
+
+    await fact.save();
+    res.status(201).json({ message: "Fact added successfully!", fact });
   } catch (err) {
     console.error("Error fetching random fact:", err);
     res.status(500).json({ error: "Server error" });
