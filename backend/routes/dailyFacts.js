@@ -1,12 +1,21 @@
-const express = require('express');
-const Fact = require('../models/Fact');
+// routes/factEmail.js
+const express = require("express");
 const router = express.Router();
+const User = require("../models/User");
+const Fact = require("../models/Fact");
+const sendEmail = require("./../utils/email");
 
-// Get random active fact
-router.get('/random', async (req, res) => {
+const {
+  dailyFactEmail
+} = require("./../helpers/EmailTemplate");
+
+// -----------------------------
+// Add a new fact
+// -----------------------------
+
+router.post("/", async (req, res) => {
   try {
-    const facts = await Fact.find({ is_active: true });
-    if (!facts.length) return res.status(404).json({ error: 'No active facts' });
+    const { fact_text, source, related_unit_id, is_active } = req.body;
 
     const fact = new Fact({
       fact_text,
@@ -15,9 +24,8 @@ router.get('/random', async (req, res) => {
       is_active: is_active ?? true,
     });
 
-    // No DailyFactView model, so skipping view tracking
-
-    res.json(fact);
+    await fact.save();
+    res.status(201).json({ message: "Fact added successfully!", fact });
   } catch (err) {
     console.error("Error adding fact:", err);
     res.status(500).json({ error: "Server error" });

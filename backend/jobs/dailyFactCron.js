@@ -1,13 +1,14 @@
 const cron = require("node-cron");
-const { sendDailyFact } = require("../telegramBot");
+const axios = require("axios");
 
-const cronSchedule = process.env.CRON_SCHEDULE || "0 9 * * *";
-
-cron.schedule(cronSchedule, async () => {
-  console.log("Cron job triggered: sending daily facts...");
+cron.schedule("39 16 * * *", async () => {
   try {
-    await sendDailyFact({ delayMs: 200 });
+    console.log("Triggering /daily-fact/send API at 3:47 PM...");
+    const { data } = await axios.post("http://localhost:5000/api/facts/send", {});
+    console.log("Daily fact API response:", data);
   } catch (err) {
-    console.error("Failed scheduled send:", err);
+    console.error("Failed to call /daily-fact/send:", err.message);
   }
+}, {
+  timezone: "Asia/Kolkata"
 });
