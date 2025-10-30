@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { useNavigate, Routes, Route } from "react-router-dom";
 import MarkdownViewer from "../../MarkdownViewer"; // Import your MarkdownViewer component
+import Lesson2Quiz from '../Quiz/Quizlesson2';
 
 const GlobalFilter = ({ globalFilter, setGlobalFilter }) => {
   return (
@@ -102,6 +103,12 @@ const SchedulesTable = () => {
       <Routes>
         <Route path="docs/:fileName" element={<MarkdownViewer />} />
       </Routes>
+
+      {/* Quiz (Lesson 2) — placed here for Citizens section */}
+      {(() => {
+        const host = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+        return <Lesson2Quiz host={host} />;
+      })()}
     </div>
   );
 };

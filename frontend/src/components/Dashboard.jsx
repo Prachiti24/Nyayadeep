@@ -9,12 +9,60 @@ function Dashboard() {
     const userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [quizProgress, setQuizProgress] = useState({});
+    const [quizLoading, setQuizLoading] = useState(true);
 
     useEffect(() => {
         if (userId) {
             fetchStats();
+            fetchQuizProgress();
         }
     }, [userId]);
+
+    const fetchQuizProgress = async () => {
+        setQuizLoading(true);
+        try {
+            const host = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+            // Try common endpoint patterns. Backend currently exposes POST /api/quizProgress/update; try GET variants.
+            let res;
+            try {
+                res = await axios.get(`${host}/api/quizProgress/user/${userId}`);
+            } catch (e1) {
+                try {
+                    res = await axios.get(`${host}/api/quizProgress`, { params: { userId } });
+                } catch (e2) {
+                    console.error('Quiz progress endpoints failed:', e1, e2);
+                    setQuizProgress({});
+                    setQuizLoading(false);
+                    return;
+                }
+            }
+
+            const data = res?.data;
+            // Normalize to array of progress entries
+            let entries = [];
+            if (Array.isArray(data)) entries = data;
+            else if (Array.isArray(data.progress)) entries = data.progress;
+            else if (Array.isArray(data.data)) entries = data.data;
+            else if (Array.isArray(data.entries)) entries = data.entries;
+            else if (data && typeof data === 'object') {
+                // maybe single record
+                entries = data.progress ? data.progress : [];
+            }
+
+            const map = {};
+            // entries expected to contain objects with unitName (e.g., 'lesson1')
+            entries.forEach((p) => {
+                if (p && p.unitName) map[p.unitName] = true;
+            });
+            setQuizProgress(map);
+        } catch (error) {
+            console.error('Error fetching quiz progress:', error);
+            setQuizProgress({});
+        } finally {
+            setQuizLoading(false);
+        }
+    };
 
     const fetchStats = async () => {
         try {
@@ -93,6 +141,39 @@ function Dashboard() {
                     <h3 className="font-semibold mb-2">📖 Read E-Book</h3>
                     <p className="text-sm">Explore detailed content</p>
                 </div>
+            </div>
+
+            {/* Pending Quizzes */}
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-8">
+                <h3 className="text-xl font-bold mb-4 text-primary">📝 Pending Quizzes</h3>
+                <p className="text-sm mb-4">Shows five lesson quizzes (from Citizens) — 100% if submitted, 0% if not.</p>
+
+                {quizLoading ? (
+                    <div className="flex items-center">
+                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mr-2"></div>
+                        <span>Loading quiz progress...</span>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {[
+                            { key: 'lesson1', title: 'Rights' },
+                            { key: 'lesson2', title: 'Schedules' },
+                            { key: 'lesson3', title: 'Duties' },
+                            { key: 'lesson4', title: 'DPSP' },
+                            { key: 'lesson5', title: 'Amendments' },
+                        ].map((unit) => (
+                            <div key={unit.key} className="flex items-center justify-between p-3 border rounded">
+                                <div>
+                                    <div className="font-semibold">{unit.title}</div>
+                                    <div className="text-xs text-gray-500">Unit: {unit.key}</div>
+                                </div>
+                                <div className="text-lg font-bold text-primary">
+                                    {quizProgress[unit.key] ? '100%' : '0%'}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
 
             {/* Charts Section */}

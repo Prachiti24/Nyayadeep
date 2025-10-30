@@ -13,6 +13,8 @@ const dailyFactsRoutes = require('./routes/dailyFacts');
 // const crosswordRoutes = require("./routes/crosswordroutes");
 // app.use("/api/crosswords", crosswordRoutes);
 
+const quizProgressRoutes = require('./routes/quizProgress');
+
 
 const app = express();
 
@@ -29,6 +31,7 @@ app.use('/api/progress', progressRoutes);
 app.use('/api/lesson', lessonRoutes);
 app.use('/api/question', questionRoutes);
 app.use('/api/dailyFacts', dailyFactsRoutes);
+app.use('/api/quizProgress', quizProgressRoutes);
 // app.use('/api/crosswords', crosswordRoutes);
 
 // Start server
