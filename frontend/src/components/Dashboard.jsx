@@ -4,13 +4,14 @@ import ProgressTracker from "../components/ProgressTracker";
 import Leaderboard from "../components/Leaderboard";
 import ContinueLearning from "../components/ContinueLearning";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 function Dashboard() {
     const userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
     const [quizProgress, setQuizProgress] = useState({});
     const [quizLoading, setQuizLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (userId) {
@@ -133,7 +134,10 @@ function Dashboard() {
                     <h3 className="font-semibold mb-2">🧠 Take Quiz</h3>
                     <p className="text-sm">Test your knowledge</p>
                 </div>
-                <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer">
+                <div
+                    onClick={() => navigate("/games")}
+                    className="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                >
                     <h3 className="font-semibold mb-2">🎮 Play Game</h3>
                     <p className="text-sm">Have fun while learning</p>
                 </div>
