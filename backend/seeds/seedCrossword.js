@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const Crossword = require("../models/Crossword.js");
 
-dotenv.config({ path: "../.env" }); 
+dotenv.config(); 
 
 async function insertSample() {
   try {
