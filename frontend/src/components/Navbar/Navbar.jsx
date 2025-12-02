@@ -53,17 +53,17 @@ const NavbarMenu = [
       { id: 5, title: "Schedules", path: "/citizen/schedules" },
     ],
   },
-  {
-    id: 6,
-    title: "Engage",
-    path: "/engage",
-    submenu: [
-      { id: 1, title: "Discussion Forum", path: "/engage/discussionforum" },
-      { id: 2, title: "Blog", path: "/engage/blog" },
-      { id: 3, title: "Podcast", path: "/engage/podcast" },
-      { id: 4, title: "Video", path: "/engage/video" },
-    ],
-  },
+  // {
+  //   id: 6,
+  //   title: "Engage",
+  //   path: "/engage",
+  //   submenu: [
+  //     { id: 1, title: "Discussion Forum", path: "/engage/discussionforum" },
+  //     { id: 2, title: "Blog", path: "/engage/blog" },
+  //     { id: 3, title: "Podcast", path: "/engage/podcast" },
+  //     { id: 4, title: "Video", path: "/engage/video" },
+  //   ],
+  // },
   { id: 7, title: "E-Books", path: "/ebooks" },
   {
     id: 8,
@@ -71,7 +71,8 @@ const NavbarMenu = [
     path: "/games",
     // ✅ Removed Crossword, Quiz, Word Search, Puzzle
   },
-  { id: 9, title: "Contact Us", path: "/contact" },
+  { id: 9, title: "Samvidhan Saathi", path: "/chatbot" },
+  // { id: 9, title: "Contact Us", path: "/contact" },
 ];
 
 const Navbar = () => {
@@ -104,7 +105,7 @@ const Navbar = () => {
         <div className="container flex items-center justify-between px-2 text-black bg-white lg:px-5 dark:bg-gray-800 dark:text-white">
           {/* Accessibility Icons */}
           <div className="flex items-center space-x-4 text-gray-700 bg-white dark:bg-gray-800 dark:text-white" >
-            <FaHighlighter size={24} className="cursor-pointer hover:text-black dark:hover:text-white" title="Highlight Text" />
+            {/* <FaHighlighter size={24} className="cursor-pointer hover:text-black dark:hover:text-white" title="Highlight Text" />*/}
             <FaTextHeight
               size={24}
               className="cursor-pointer hover:text-black dark:hover:text-white"
