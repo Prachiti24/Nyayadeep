@@ -1,45 +1,85 @@
-// Importing the necessary modules from the '@google/generative-ai' package.
-import {
-  GoogleGenerativeAI, // Class for initializing the Google Generative AI client.
-  GenerativeModel,    // Interface representing a generative model.
-  GenerationConfig,   // Interface for configuring generation options.
-} from '@google/generative-ai';
+// ai.ts
 
-// Declaring a variable to store the generative model. Initially, it is set to null.
+import {
+  GenerationConfig,
+  GenerativeModel,
+  GoogleGenerativeAI,
+} from "@google/generative-ai";
+
+// Store Gemini model
 let model: GenerativeModel | null = null;
 
-// Function to initialize the AI with an API key.
-// This sets up the Google Generative AI client and assigns a specific model to the 'model' variable.
+// Initialize Gemini AI
 export const initializeAI = (apiKey: string) => {
-  // Creating an instance of GoogleGenerativeAI using the provided API key.
-  const genAI = new GoogleGenerativeAI(apiKey);
-  
-  // Retrieving a specific generative model ('gemini-pro') and storing it in the 'model' variable.
-  model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+
+  // Check API key
+  if (!apiKey) {
+    console.error("Gemini API key missing");
+    return;
+  }
+
+  try {
+
+    // Create Gemini client
+    const genAI = new GoogleGenerativeAI(apiKey);
+
+    // Use Gemini 1.5 Flash model
+    model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash",
+    });
+
+    console.log("Gemini initialized successfully");
+
+  } catch (error) {
+
+    console.error("Gemini Initialization Error:", error);
+  }
 };
 
-// Function to generate a response from the AI model based on a given message.
+// Generate AI response
 export const generateResponse = async (message: string) => {
-  // Check if the 'model' has been initialized; if not, throw an error.
-  if (!model) throw new Error('AI model not initialized');
 
-  // Defining configuration options for the content generation.
-  const generationConfig: GenerationConfig = {
-    temperature: 0.9,       // Controls randomness in the output; higher values make it more creative.
-    topK: 1,                // Limits the sampling to the top K most probable choices.
-    topP: 1,                // Ensures cumulative probability of sampled tokens does not exceed this value.
-    maxOutputTokens: 2048,  // Maximum number of tokens in the output.
-  };
+  try {
 
-  // Generating content using the AI model with the provided message and generation configuration.
-  const result = await model.generateContent({
-    contents: [{ 
-      role: 'user',  // Specifies the role as 'user' in the conversation.
-      parts: [{ text: message }]  // The user's input message.
-    }],
-    generationConfig,  // Passes the configuration settings to the generation request.
-  });
+    // Check if model exists
+    if (!model) {
+      throw new Error("AI model not initialized");
+    }
 
-  // Returning the generated text from the AI's response.
-  return result.response.text();
+    // Generation settings
+    const generationConfig: GenerationConfig = {
+      temperature: 0.9,
+      topK: 1,
+      topP: 1,
+      maxOutputTokens: 2048,
+    };
+
+    // Generate content
+    const result = await model.generateContent({
+      contents: [
+        {
+          role: "user",
+          parts: [
+            {
+              text: message,
+            },
+          ],
+        },
+      ],
+      generationConfig,
+    });
+
+    // Extract response text
+    const response = result.response.text();
+
+    console.log("Gemini Response:", response);
+
+    return response;
+
+  } catch (error) {
+
+    console.error("Generate Response Error:", error);
+
+    return "Sorry, AI is currently unavailable.";
+  }
 };

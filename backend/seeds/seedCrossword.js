@@ -2,12 +2,14 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const Crossword = require("../models/Crossword.js");
 
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/Nyaydeep';
+
 dotenv.config(); 
 
 async function insertSample() {
   try {
     console.log("🌱 Loading environment variables...");
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(MONGO_URI);
     console.log("✅ Connected to MongoDB");
 
     // Clear old crossword data

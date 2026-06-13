@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const Fact = require("../models/Fact.js");
-
-dotenv.config({ path: "../.env" }); // ✅ important — go up one level
+require('dotenv').config();
+//dotenv.config({ path: "../.env" }); // ✅ important — go up one level
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/Nyaydeep';
+const ConstitutionUnit = require("../models/ConstitutionUnit.js")
 
 async function seed() {
   await mongoose.connect(MONGO_URI);
