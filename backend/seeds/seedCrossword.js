@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const Crossword = require("../models/Crossword.js");
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/Nyaydeep';
+//const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/Nyaydeep';
+const MONGO_URI = process.env.MONGO_URL;
 
 dotenv.config(); 
 

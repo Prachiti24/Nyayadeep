@@ -3,7 +3,8 @@ const dotenv = require("dotenv");
 const Fact = require("../models/Fact.js");
 require('dotenv').config();
 //dotenv.config({ path: "../.env" }); // ✅ important — go up one level
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/Nyaydeep';
+//const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/Nyaydeep';
+const MONGO_URI = process.env.MONGO_URL;
 const ConstitutionUnit = require("../models/ConstitutionUnit.js")
 
 async function seed() {

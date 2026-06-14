@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const Lesson = require('../models/Lesson');
 require('dotenv').config(); // To load MONGO_URI from .env
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/Nyaydeep';
+//const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/Nyaydeep';
+const MONGO_URI = process.env.MONGO_URL;
 
 const seedLessons = async () => {
   try {
