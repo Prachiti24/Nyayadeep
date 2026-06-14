@@ -33,7 +33,9 @@ const nodemailer = require("nodemailer");
 const sendEmail = async (options) => {
   try {
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USERNAME,
         pass: process.env.EMAIL_PASSWORD,
@@ -49,10 +51,10 @@ const sendEmail = async (options) => {
 
     const info = await transporter.sendMail(mailOptions);
 
-    console.log("✅ OTP email sent:", info.response);
+    console.log("OTP email sent:", info.response);
     return true;
   } catch (error) {
-    console.error("❌ OTP email failed:", error.message);
+    console.error("Email failed:", error.message);
     return false;
   }
 };

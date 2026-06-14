@@ -41,7 +41,7 @@ export default function LandingPage() {
   const gamesRef = useRef(null);
   const communityRef = useRef(null);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchDailyFact = async () => {
       try {
         const res = await fetch("https://prachiti24-nyayadeep.onrender.com/api/dailyFacts/random"); // ✅ adjust backend URL if needed
@@ -53,7 +53,24 @@ export default function LandingPage() {
     };
 
     fetchDailyFact();
-  }, []);
+  }, []);*/
+
+  useEffect(() => {
+  const fetchDailyFact = async () => {
+    try {
+      const res = await fetch(
+        "https://prachiti24-nyayadeep.onrender.com/api/facts/random"
+      );
+
+      const data = await res.json();
+      setDailyFact(data);
+    } catch (err) {
+      console.error("Error fetching daily fact:", err);
+    }
+  };
+
+  fetchDailyFact();
+}, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
