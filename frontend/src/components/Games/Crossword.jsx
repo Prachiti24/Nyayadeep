@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
 import axios from "axios";
+import React, { useRef, useState } from "react";
 
 const CrosswordGame = () => {
     const [crossword, setCrossword] = useState(null);
@@ -7,7 +7,7 @@ const CrosswordGame = () => {
     const inputRefs = useRef([]);
 
     React.useEffect(() => {
-        axios.get("http://localhost:5000/api/crosswords")
+        axios.get("https://prachiti24-nyayadeep.onrender.com/api/crosswords")
             .then((res) => {
                 const allCrosswords = res.data;
                 const randomIndex = Math.floor(Math.random() * allCrosswords.length);
@@ -74,7 +74,7 @@ const CrosswordGame = () => {
             }
 
             await axios.patch(
-                "http://localhost:5000/api/auth/addXP",
+                "https://prachiti24-nyayadeep.onrender.com/api/auth/addXP",
                 { xp: 20, activity: "crossword_completion" },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

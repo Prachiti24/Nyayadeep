@@ -1,6 +1,6 @@
-import React, { useState, useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./VerifyOtp.css"; 
+import "./VerifyOtp.css";
 
 const VerifyOtp = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const VerifyOtp = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/verifySignupEmailOTP", {
+      const response = await fetch("https://prachiti24-nyayadeep.onrender.com/api/auth/verifySignupEmailOTP", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

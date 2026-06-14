@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
-import ProgressTracker from "../components/ProgressTracker";
-import Leaderboard from "../components/Leaderboard";
-import ContinueLearning from "../components/ContinueLearning";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import ContinueLearning from "../components/ContinueLearning";
+import Leaderboard from "../components/Leaderboard";
+import ProgressTracker from "../components/ProgressTracker";
 function Dashboard() {
     const userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage
     const [stats, setStats] = useState(null);
@@ -23,7 +23,7 @@ function Dashboard() {
     const fetchQuizProgress = async () => {
         setQuizLoading(true);
         try {
-            const host = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+            const host = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || "https://prachiti24-nyayadeep.onrender.com";
             // Try common endpoint patterns. Backend currently exposes POST /api/quizProgress/update; try GET variants.
             let res;
             try {
@@ -67,7 +67,7 @@ function Dashboard() {
 
     const fetchStats = async () => {
         try {
-            const progressRes = await axios.get(`http://localhost:5000/api/progress/${userId}`);
+            const progressRes = await axios.get(`https://prachiti24-nyayadeep.onrender.com/api/progress/${userId}`);
             const progress = progressRes.data;
 
             // Mock data for charts - in real app, fetch from backend

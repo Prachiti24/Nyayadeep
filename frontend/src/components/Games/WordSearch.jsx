@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
 
 
 const MockBackendData = {
@@ -144,7 +144,7 @@ const Word = () => {
           if (!token) return;
 
           await axios.patch(
-            "http://localhost:5000/api/auth/addXP",
+            "https://prachiti24-nyayadeep.onrender.com/api/auth/addXP",
             { xp: 20, activity: "wordsearch_completion" },
             { headers: { Authorization: `Bearer ${token}` } }
           );

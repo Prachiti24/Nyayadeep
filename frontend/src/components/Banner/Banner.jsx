@@ -1,12 +1,10 @@
-import React from "react";
-import BannerPng from "../../assets/education.png"; // Use an image relevant to the Constitution
-import { FaBalanceScale } from "react-icons/fa";
-import { BsFillAwardFill } from "react-icons/bs";
-import { MdPolicy } from "react-icons/md";
-import { RiExchangeFill } from "react-icons/ri";
-import { MdSchedule } from "react-icons/md";
-import { FadeUp } from "../Hero/Hero";
 import { motion } from "framer-motion";
+import { BsFillAwardFill } from "react-icons/bs";
+import { FaBalanceScale } from "react-icons/fa";
+import { MdPolicy, MdSchedule } from "react-icons/md";
+import { RiExchangeFill } from "react-icons/ri";
+import BannerPng from "../../assets/education.png"; // Use an image relevant to the Constitution
+import { FadeUp } from "../Hero/Hero";
 
 const Banner = () => {
   const sections = [
@@ -19,6 +17,7 @@ const Banner = () => {
     {
       id: 2,
       title: "Fundamental Duties",
+      
       icon: <BsFillAwardFill className="text-2xl" />,
       link: "/citizen/duties", // Replace with actual route
     },

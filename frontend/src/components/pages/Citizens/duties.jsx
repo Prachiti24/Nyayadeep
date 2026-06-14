@@ -1,6 +1,5 @@
-import React, { useMemo } from "react";
-import { useTable, usePagination } from "react-table";
-import { useNavigate, Routes, Route } from "react-router-dom";
+import { useMemo } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import MarkdownViewer from "../../MarkdownViewer"; // Import your MarkdownViewer component
 import Lesson3Quiz from '../Quiz/Quizlesson3';
 
@@ -171,7 +170,7 @@ const DutiesTable = () => {
 
       {/* Quiz (Lesson 3) — placed here for Citizens section */}
       {(() => {
-        const host = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+        const host = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || "https://prachiti24-nyayadeep.onrender.com";
         return <Lesson3Quiz host={host} />;
       })()}
     </div>

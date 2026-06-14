@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function ContinueLearning({ userId }) {
@@ -15,14 +15,14 @@ function ContinueLearning({ userId }) {
     const fetchContinueData = async () => {
         try {
             // Fetch user's progress to get completed lessons
-            const progressRes = await axios.get(`http://localhost:5000/api/progress/${userId}`);
+            const progressRes = await axios.get(`https://prachiti24-nyayadeep.onrender.com/api/progress/${userId}`);
             const progress = progressRes.data;
             const completedLessons = progress.completedLessons || [];
 
             // Fetch lesson details for completed lessons
             const lessonPromises = completedLessons.map(async (lessonProgress) => {
                 try {
-                    const lessonRes = await axios.get(`http://localhost:5000/api/lessons/${lessonProgress.lessonId}`);
+                    const lessonRes = await axios.get(`https://prachiti24-nyayadeep.onrender.com/api/lessons/${lessonProgress.lessonId}`);
                     return {
                         ...lessonRes.data,
                         progress: lessonProgress.isCompleted ? 100 : 50, // Simple progress calculation

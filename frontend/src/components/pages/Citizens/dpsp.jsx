@@ -1,7 +1,6 @@
-import React, { useMemo } from "react";
-import { useNavigate, Routes, Route } from "react-router-dom";
+import { useMemo } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import MarkdownViewer from "../../MarkdownViewer"; // Import your MarkdownViewer component
-import { useTable, useGlobalFilter } from "react-table";
 import Lesson4Quiz from '../Quiz/Quizlesson4';
 
 const GlobalFilter = ({ globalFilter, setGlobalFilter }) => {
@@ -116,7 +115,7 @@ const DPSPTable = () => {
 
       {/* Quiz (Lesson 4) — placed here for Citizens section */}
       {(() => {
-        const host = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+        const host = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || "https://prachiti24-nyayadeep.onrender.com";
         return <Lesson4Quiz host={host} />;
       })()}
     </div>

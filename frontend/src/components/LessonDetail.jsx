@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 function LessonDetail() {
@@ -13,7 +13,7 @@ function LessonDetail() {
 
     useEffect(() => {
         // Fetch lesson data
-        axios.get(`http://localhost:5000/api/lessons/${lessonId}`)
+        axios.get(`https://prachiti24-nyayadeep.onrender.com/api/lessons/${lessonId}`)
             .then(res => {
                 setLesson(res.data);
             })
@@ -23,7 +23,7 @@ function LessonDetail() {
             });
 
         // Fetch user progress for this lesson
-        axios.get(`http://localhost:5000/api/progress/${userId}`)
+        axios.get(`https://prachiti24-nyayadeep.onrender.com/api/progress/${userId}`)
             .then(res => {
                 const userProgress = res.data;
                 setProgress(userProgress);
@@ -41,7 +41,7 @@ function LessonDetail() {
     }, [lessonId, userId]);
 
     const updateProgress = (position, isCompleted = false) => {
-        axios.post("http://localhost:5000/api/lessons/progress", {
+        axios.post("https://prachiti24-nyayadeep.onrender.com/api/lessons/progress", {
             userId,
             lessonId,
             lastPosition: position,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const QuizLesson = ({ questions, unitName }) => {
   const [selectedAnswers, setSelectedAnswers] = useState(
@@ -7,7 +7,7 @@ const QuizLesson = ({ questions, unitName }) => {
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
-  const host = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+  const host = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || 'https://prachiti24-nyayadeep.onrender.com';
 
   const handleOptionChange = (qIndex, option) => {
     const newAnswers = [...selectedAnswers];

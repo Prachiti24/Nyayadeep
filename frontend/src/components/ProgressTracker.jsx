@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 
 function ProgressTracker() {
     const [user, setUser] = useState(null);
@@ -14,7 +13,7 @@ function ProgressTracker() {
             }
 
             try {
-                const res = await fetch("http://localhost:5000/api/auth/getUser", {
+                const res = await fetch("https://prachiti24-nyayadeep.onrender.com/api/auth/getUser", {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`,

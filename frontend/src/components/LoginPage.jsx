@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import "./LoginPage.css";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./LoginPage.css";
 
 const LoginPage = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
   const navigate = useNavigate();
 
-  const host = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  const host = import.meta.env.VITE_API_URL || "https://prachiti24-nyayadeep.onrender.com";
 
   // States
   const [loginData, setLoginData] = useState({ email: "", password: "" });

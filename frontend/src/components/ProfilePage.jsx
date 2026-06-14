@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ export default function ProfilePage() {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/auth/resetPassword", {
+      const res = await fetch("https://prachiti24-nyayadeep.onrender.com/api/auth/resetPassword", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export default function ProfilePage() {
       if (!token) return;
 
       try {
-        const res = await fetch("http://localhost:5000/api/auth/getUser", {
+        const res = await fetch("https://prachiti24-nyayadeep.onrender.com/api/auth/getUser", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -100,7 +100,7 @@ export default function ProfilePage() {
     const token = localStorage.getItem("token");
     if (!token) return;
     try {
-      const res = await fetch("http://localhost:5000/api/auth/update", {
+      const res = await fetch("https://prachiti24-nyayadeep.onrender.com/api/auth/update", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

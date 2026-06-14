@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { FaChartLine, FaCog, FaSignOutAlt, FaTrophy, FaUser } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaCog, FaSignOutAlt, FaTrophy, FaChartLine } from 'react-icons/fa';
 
 const ProfileDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +13,7 @@ const ProfileDropdown = () => {
       if (!token) return;
 
       try {
-        const res = await fetch("http://localhost:5000/api/auth/getUser", {
+        const res = await fetch("https://prachiti24-nyayadeep.onrender.com/api/auth/getUser", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

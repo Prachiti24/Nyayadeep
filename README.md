@@ -80,7 +80,7 @@ npm install
 nodemon server.js
 ```
 
-Backend will start at: **[http://localhost:5000](http://localhost:5000)**
+Backend will start at: **[https://prachiti24-nyayadeep.onrender.com](https://prachiti24-nyayadeep.onrender.com)**
 
 #### 📄 Backend `.env` Example
 
@@ -96,7 +96,7 @@ EMAIL_PASSWORD=your_email_password
 EMAIL_FROM=your_email@example.com
 NODE_ENV=development
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token
-DAILY_FACT_API=http://localhost:5000/api/facts/send
+DAILY_FACT_API=https://prachiti24-nyayadeep.onrender.com/api/facts/send
 GEMINI_API_KEY=your_gemini_api_key
 BACKEND_KEY=your_backend_key
 ```

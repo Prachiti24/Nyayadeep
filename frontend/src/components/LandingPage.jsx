@@ -1,42 +1,32 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import {
+  FaArrowRight,
   FaBook,
-  FaGamepad,
-  FaTrophy,
-  FaUsers,
-  FaMicrophone,
-  FaVideo,
-  FaNewspaper,
-  FaPodcast,
   FaChevronDown,
+  FaGamepad,
+  FaPodcast,
   FaStar,
   FaTimes,
-  FaArrowRight,
+  FaTrophy,
+  FaUsers
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-import Dashboard from "./Dashboard";
 import Footer from "./Footer/Footer";
-import Navbar from "./Navbar/Navbar";
 import GoogleTranslate from "./Language";
+import Navbar from "./Navbar/Navbar";
 import StickyChatbotButton from "./StickyChatbotButton";
 
-import book1 from "../assets/book1.png";
-import book2 from "../assets/book2.png";
-import book3 from "../assets/book3.png";
 import cs1 from "../assets/cs1.png";
 import cs2 from "../assets/cs2.png";
 import cs3 from "../assets/cs3.png";
+import game1 from "../assets/game1.png";
+import game3 from "../assets/game3.png";
+import hero2 from "../assets/hero2.png";
 import pod1 from "../assets/pod1.png";
 import pod2 from "../assets/pod2.png";
 import pod3 from "../assets/pod3.png";
-import game1 from "../assets/game1.png";
-import game2 from "../assets/game2.png";
-import game3 from "../assets/game3.png";
-import game4 from "../assets/game4.png";
-import hero2 from "../assets/hero2.png";
-import blobSvg from "../assets/blob.svg";
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -54,7 +44,7 @@ export default function LandingPage() {
   useEffect(() => {
     const fetchDailyFact = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/dailyFacts/random"); // ✅ adjust backend URL if needed
+        const res = await fetch("https://prachiti24-nyayadeep.onrender.com/api/dailyFacts/random"); // ✅ adjust backend URL if needed
         const data = await res.json();
         setDailyFact(data);
       } catch (err) {

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 function Leaderboard() {
   const [leaders, setLeaders] = useState([]);
@@ -7,7 +7,7 @@ function Leaderboard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/progress/leaderboard/top") // update route if changed
+      .get("https://prachiti24-nyayadeep.onrender.com/api/progress/leaderboard/top") // update route if changed
       .then((res) => {
         setLeaders(res.data);
         setLoading(false);
