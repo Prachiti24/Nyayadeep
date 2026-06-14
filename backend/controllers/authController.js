@@ -40,7 +40,8 @@ const createSendToken = (user, statusCode, req, res) => {
 
   res
     .status(statusCode)
-    .cookie("token", token, { maxAge: 9000000, httpOnly: true, secure: true })
+    //.cookie("token", token, { maxAge: 9000000, httpOnly: true, secure: true })
+    .cookie("jwt", token, { maxAge:9000000, httpOnly:true, secure: process.env.NODE_ENV==="production"})
     .json({
       status: "success",
       token,
@@ -83,11 +84,15 @@ exports.signup = catchAsync(async (req, res, next) => {
   console.log(message);
 
   try {
-    await sendEmail({
-      email,
-      subject: 'Your OTP for Signup (valid for 10 min)',
-      html: otpVerificationEmail(name, Emailotp)
-    });
+    const sent = await sendEmail({
+    email,
+    subject: "Your OTP for Signup (valid for 10 min)",
+    html: otpVerificationEmail(name, Emailotp),
+  });
+
+  if (!sent) {
+    throw new Error("Email send failed");
+  }
   } catch (err) {
     newUser.Emailotp = undefined;
     newUser.EmailotpExpires = undefined;
@@ -111,8 +116,8 @@ exports.verifyOtp = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     token = req.headers.authorization.split(" ")[1];
-  } else if (req.cookies.jwt) {
-    token = req.cookies.jwt;
+  } else if (req.cookies.jwt || req.cookies.token) {
+    token = req.cookies.jwt || req.cookies.token;
   }
 
   if (!token) {
@@ -129,7 +134,8 @@ exports.verifyOtp = catchAsync(async (req, res, next) => {
     .update(req.body.Emailotp)
     .digest("hex");
 
-  const realEmail = decoded.email.slice(17);
+  //const realEmail = decoded.email.slice(17);
+  const realEmail = decoded.email.replace(/^notverified.{6}/,"");
   let user = await User.findOne({
     email: decoded.email,
     Emailotp: hashedOtp,
@@ -261,8 +267,8 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     token = req.headers.authorization.split(" ")[1];
-  } else if (req.cookies.jwt) {
-    token = req.cookies.jwt;
+  } else if (req.cookies.jwt || req.cookies.token) {
+    token = req.cookies.jwt || req.cookies.token;
   }
 
   if (!token) {
@@ -307,11 +313,11 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 // Only for rendered pages, no errors!
 exports.isLoggedIn = async (req, res, next) => {
-  if (req.cookies.jwt) {
+  if (req.cookies.jwt || req.cookies.token) {
     try {
       // 1) verify token
       const decoded = await promisify(jwt.verify)(
-        req.cookies.jwt,
+        req.cookies.jwt || req.cookies.token,
         process.env.JWT_SECRET_KEY
       );
 
