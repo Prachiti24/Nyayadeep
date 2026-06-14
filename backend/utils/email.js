@@ -31,30 +31,29 @@ module.exports = sendEmail;*/
 const nodemailer = require("nodemailer");
 
 const sendEmail = async (options) => {
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    secure: true,
-    port: 465,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
-
-  const mailOptions = {
-    from: "sreya2407@gmail.com",
-    to: options.email,
-    subject: options.subject,
-    html: options.html,
-  };
-
   try {
-    const result = await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully:", result.response);
-    return result;
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USERNAME,
+      to: options.email,
+      subject: options.subject,
+      html: options.html,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log("✅ OTP email sent:", info.response);
+    return true;
   } catch (error) {
-    console.error("Email sending failed:", error.message);
-    return null; // prevents server crash
+    console.error("❌ OTP email failed:", error.message);
+    return false;
   }
 };
 
