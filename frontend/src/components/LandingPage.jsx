@@ -18,7 +18,7 @@ import GoogleTranslate from "./Language";
 import Navbar from "./Navbar/Navbar";
 import StickyChatbotButton from "./StickyChatbotButton";
 
-import cs1 from "../assets/cs1.png";
+import cs1 from "../assets/CS1.png";
 import cs2 from "../assets/cs2.png";
 import cs3 from "../assets/cs3.png";
 import game1 from "../assets/game1.png";
