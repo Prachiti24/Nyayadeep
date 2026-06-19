@@ -54,7 +54,8 @@ const sendEmail = async (options) => {
     console.log("OTP email sent:", info.response);
     return true;
   } catch (error) {
-    console.error("Email failed:", error.message);
+    console.error("Email failed:");
+    console.error(error);
     return false;
   }
 };

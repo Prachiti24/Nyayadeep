@@ -94,17 +94,18 @@ exports.signup = catchAsync(async (req, res, next) => {
     throw new Error("Email send failed");
   }
   } catch (err) {
-    newUser.Emailotp = undefined;
-    newUser.EmailotpExpires = undefined;
-    await newUser.save({ validateBeforeSave: false });
+  console.error("Signup email error:", err);
 
-    return next(
-      new AppError(
-        "There was an error sending the email. Try again later!",
-        500
-      )
-    );
-  }
+  // Delete the unverified user if email sending fails
+  await User.findByIdAndDelete(newUser._id);
+
+  return next(
+    new AppError(
+      "There was an error sending the email. Try again later!",
+      500
+    )
+  );
+}
 
   createSendToken(newUser, 200, req, res);
 });
