@@ -39,12 +39,10 @@ const sendEmail = async (options) => {
         pass: process.env.EMAIL_PASSWORD,
       },
 
-      connectionTimeout: 60000,
-      greetingTimeout: 60000,
-      socketTimeout: 60000,
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 15000,
     });
-
-    await transporter.verify();
 
     const info = await transporter.sendMail({
       from: `"Nyayadeep" <${process.env.EMAIL_USERNAME}>`,
@@ -53,12 +51,13 @@ const sendEmail = async (options) => {
       html: options.html,
     });
 
-    console.log(info.messageId);
+    console.log("Mail sent:", info.messageId);
 
     return true;
 
   } catch (err) {
-    console.error(err);
+    console.error("EMAIL ERROR:", err);
+
     return false;
   }
 };

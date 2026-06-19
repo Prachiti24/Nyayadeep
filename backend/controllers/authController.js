@@ -122,7 +122,12 @@ exports.signup = catchAsync(async (req, res, next) => {
   console.error("Signup email error:", err);
 
   // Delete the unverified user if email sending fails
-  await User.findByIdAndDelete(newUser._id);
+  try {
+   await User.findByIdAndDelete(newUser._id);
+   console.log("Failed signup user removed");
+} catch(e) {
+   console.error("Delete failed", e);
+}
 
   return next(
     new AppError(
