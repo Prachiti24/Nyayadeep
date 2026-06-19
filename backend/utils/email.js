@@ -33,13 +33,12 @@ const nodemailer = require("nodemailer");
 const sendEmail = async (options) => {
   try {
     console.log("EMAIL_USERNAME =", process.env.EMAIL_USERNAME);
-    console.log(
-      "EMAIL_PASSWORD exists =",
-      !!process.env.EMAIL_PASSWORD
-    );
+    console.log("EMAIL_PASSWORD exists =", !!process.env.EMAIL_PASSWORD);
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
 
       auth: {
         user: process.env.EMAIL_USERNAME,
@@ -52,10 +51,6 @@ const sendEmail = async (options) => {
     });
 
     console.log("Connecting SMTP...");
-
-    await transporter.verify();
-
-    console.log("SMTP Connected ✅");
 
     const info = await transporter.sendMail({
       from: `"Nyayadeep" <${process.env.EMAIL_USERNAME}>`,
