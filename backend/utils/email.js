@@ -36,11 +36,21 @@ const sendEmail = async (options) => {
       host: "smtp.gmail.com",
       port: 465,
       secure: true,
+      connectionTimeout: 30000,
+      greetingTimeout: 30000,
+      socketTimeout: 30000,
+
       auth: {
         user: process.env.EMAIL_USERNAME,
         pass: process.env.EMAIL_PASSWORD,
       },
     });
+
+    console.log("Checking SMTP connection...");
+
+    await transporter.verify();
+
+    console.log("✅ SMTP connected");
 
     const mailOptions = {
       from: process.env.EMAIL_USERNAME,
@@ -52,10 +62,13 @@ const sendEmail = async (options) => {
     const info = await transporter.sendMail(mailOptions);
 
     console.log("OTP email sent:", info.response);
+
     return true;
+
   } catch (error) {
-    console.error("Email failed:");
+    console.error("❌ Email failed:");
     console.error(error);
+
     return false;
   }
 };
