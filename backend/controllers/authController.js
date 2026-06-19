@@ -61,7 +61,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   try {
     existingUser = await User.findOne({
       email: {
-        $regex: `^(notverified.{6})?${email}$`,
+        $regex: `^(notverified.{6})?${email.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`,
         $options: "i",
       },
     });

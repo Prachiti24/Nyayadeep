@@ -38,7 +38,13 @@ const sendEmail = async (options) => {
         user: process.env.EMAIL_USERNAME,
         pass: process.env.EMAIL_PASSWORD,
       },
+
+      connectionTimeout: 60000,
+      greetingTimeout: 60000,
+      socketTimeout: 60000,
     });
+
+    await transporter.verify();
 
     const info = await transporter.sendMail({
       from: `"Nyayadeep" <${process.env.EMAIL_USERNAME}>`,
@@ -47,14 +53,12 @@ const sendEmail = async (options) => {
       html: options.html,
     });
 
-    console.log("Mail sent:", info.response);
+    console.log(info.messageId);
 
     return true;
 
-  } catch (error) {
-    console.error("Email failed:");
-    console.error(error);
-
+  } catch (err) {
+    console.error(err);
     return false;
   }
 };
