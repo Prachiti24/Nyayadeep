@@ -64,8 +64,14 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 
   if (existingUser) {
-    return next(new AppError("Email already exists or pending verification.", 400));
-  }
+    if (!existingUser.verified) {
+      await User.findByIdAndDelete(existingUser._id);
+    } else {
+      return next(
+        new AppError("Email already exists.", 400)
+      );
+    }
+}
   const Emailotp = Math.floor(100000 + Math.random() * 900000).toString();
   const hashedOtp = crypto.createHash("sha256").update(Emailotp).digest("hex");
 
