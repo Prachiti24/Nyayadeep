@@ -33,41 +33,37 @@ const nodemailer = require("nodemailer");
 const sendEmail = async (options) => {
   try {
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
-      connectionTimeout: 30000,
-      greetingTimeout: 30000,
-      socketTimeout: 30000,
-
+      service: "gmail",   // ← change this
       auth: {
         user: process.env.EMAIL_USERNAME,
         pass: process.env.EMAIL_PASSWORD,
       },
+
+      connectionTimeout: 30000,
+      greetingTimeout: 30000,
+      socketTimeout: 30000,
     });
 
-    console.log("Checking SMTP connection...");
+    console.log("Connecting SMTP...");
 
     await transporter.verify();
 
-    console.log("✅ SMTP connected");
+    console.log("SMTP connected ✅");
 
-    const mailOptions = {
+    const info = await transporter.sendMail({
       from: process.env.EMAIL_USERNAME,
       to: options.email,
       subject: options.subject,
       html: options.html,
-    };
+    });
 
-    const info = await transporter.sendMail(mailOptions);
-
-    console.log("OTP email sent:", info.response);
+    console.log("OTP email sent:", info.messageId);
 
     return true;
 
-  } catch (error) {
-    console.error("❌ Email failed:");
-    console.error(error);
+  } catch (err) {
+    console.error("Email failed:");
+    console.error(err);
 
     return false;
   }
