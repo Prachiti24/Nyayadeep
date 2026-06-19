@@ -31,58 +31,50 @@ module.exports = sendEmail;*/
 const nodemailer = require("nodemailer");
 
 const sendEmail = async (options) => {
-try {
-// Debug Render env
-console.log("EMAIL_USERNAME =", process.env.EMAIL_USERNAME);
-console.log(
-"EMAIL_PASSWORD exists =",
-!!process.env.EMAIL_PASSWORD
-);
+  try {
+    console.log("EMAIL_USERNAME =", process.env.EMAIL_USERNAME);
+    console.log(
+      "EMAIL_PASSWORD exists =",
+      !!process.env.EMAIL_PASSWORD
+    );
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
 
-  auth: {
-    user: process.env.EMAIL_USERNAME,
-    pass: process.env.EMAIL_PASSWORD,
-  },
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
 
-  tls: {
-    rejectUnauthorized: false,
-  },
+      connectionTimeout: 120000,
+      greetingTimeout: 120000,
+      socketTimeout: 120000,
+    });
 
-  connectionTimeout: 30000,
-  greetingTimeout: 30000,
-  socketTimeout: 30000,
-});
+    console.log("Connecting SMTP...");
 
-console.log("Connecting SMTP...");
+    await transporter.verify();
 
-await transporter.verify();
+    console.log("SMTP Connected ✅");
 
-console.log("SMTP Connected ✅");
+    const info = await transporter.sendMail({
+      from: `"Nyayadeep" <${process.env.EMAIL_USERNAME}>`,
+      to: options.email,
+      subject: options.subject,
+      html: options.html,
+    });
 
-const info = await transporter.sendMail({
-  from: `"Nyayadeep" <${process.env.EMAIL_USERNAME}>`,
-  to: options.email,
-  subject: options.subject,
-  html: options.html,
-});
+    console.log("MAIL SENT ✅");
+    console.log(info.response);
 
-console.log("MAIL SENT ✅");
-console.log("Message ID:", info.messageId);
+    return true;
 
-return true;
+  } catch (error) {
+    console.error("EMAIL ERROR:");
+    console.error(error);
 
-} catch (error) {
-console.error("EMAIL ERROR:");
-console.error(error);
-
-return false;
-
-}
+    return false;
+  }
 };
 
 module.exports = sendEmail;
