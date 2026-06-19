@@ -56,22 +56,34 @@ exports.signup = catchAsync(async (req, res, next) => {
   if (password !== passwordConfirm) {
     return next(new AppError("Passwords do not match!", 400));
   }
-  const existingUser = await User.findOne({
-    email: {
-      $regex: `^(notverified.{6})?${email.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`,
-      $options: "i",
-    },
-  });
+  let existingUser = null;
+
+  try {
+    existingUser = await User.findOne({
+      email: {
+        $regex: `^(notverified.{6})?${email}$`,
+        $options: "i",
+      },
+    });
+
+    console.log("existingUser:", existingUser);
+
+  } catch (err) {
+    console.error("EMAIL CHECK ERROR:", err);
+
+    return next(
+      new AppError("Email validation failed", 500)
+    );
+  }
 
   if (existingUser) {
-    if (!existingUser.verified) {
-      await User.findByIdAndDelete(existingUser._id);
-    } else {
-      return next(
-        new AppError("Email already exists.", 400)
-      );
-    }
-}
+    return next(
+      new AppError(
+        "Email already exists or pending verification.",
+        400
+      )
+    );
+  }
   const Emailotp = Math.floor(100000 + Math.random() * 900000).toString();
   const hashedOtp = crypto.createHash("sha256").update(Emailotp).digest("hex");
 
@@ -79,6 +91,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   const randomString = generateRandomString(6);
   const modifiedEmail = `notverified${randomString}${email}`;
 
+  console.log("Creating user...");
   const newUser = await User.create({
     username,
     name,
@@ -89,17 +102,19 @@ exports.signup = catchAsync(async (req, res, next) => {
     EmailotpExpires,
     verified: false,
   });
+  console.log("User created:", newUser._id);
 
   const message = `Your OTP code is ${Emailotp}. It will expire in 10 minutes.`;
   console.log(message);
 
   try {
+    console.log("Sending OTP...");
     const sent = await sendEmail({
     email,
     subject: "Your OTP for Signup (valid for 10 min)",
     html: otpVerificationEmail(name, Emailotp),
   });
-
+    console.log("OTP SENT:", sent);
   if (!sent) {
     throw new Error("Email send failed");
   }
