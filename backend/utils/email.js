@@ -34,14 +34,9 @@ const sendEmail = async (options) => {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
-
       auth: {
         user: process.env.EMAIL_USERNAME,
         pass: process.env.EMAIL_PASSWORD,
-      },
-
-      tls: {
-        rejectUnauthorized: false,
       },
     });
 
@@ -52,12 +47,13 @@ const sendEmail = async (options) => {
       html: options.html,
     });
 
-    console.log("Mail sent:", info.response);
+    console.log("MAIL SENT:", info.messageId);
 
     return true;
 
   } catch (error) {
     console.error("EMAIL ERROR:", error);
+
     return false;
   }
 };
