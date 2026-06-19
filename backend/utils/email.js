@@ -31,31 +31,58 @@ module.exports = sendEmail;*/
 const nodemailer = require("nodemailer");
 
 const sendEmail = async (options) => {
-  try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-    });
+try {
+// Debug Render env
+console.log("EMAIL_USERNAME =", process.env.EMAIL_USERNAME);
+console.log(
+"EMAIL_PASSWORD exists =",
+!!process.env.EMAIL_PASSWORD
+);
 
-    const info = await transporter.sendMail({
-      from: `"Nyayadeep" <${process.env.EMAIL_USERNAME}>`,
-      to: options.email,
-      subject: options.subject,
-      html: options.html,
-    });
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
 
-    console.log("MAIL SENT:", info.messageId);
+  auth: {
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.EMAIL_PASSWORD,
+  },
 
-    return true;
+  tls: {
+    rejectUnauthorized: false,
+  },
 
-  } catch (error) {
-    console.error("EMAIL ERROR:", error);
+  connectionTimeout: 30000,
+  greetingTimeout: 30000,
+  socketTimeout: 30000,
+});
 
-    return false;
-  }
+console.log("Connecting SMTP...");
+
+await transporter.verify();
+
+console.log("SMTP Connected ✅");
+
+const info = await transporter.sendMail({
+  from: `"Nyayadeep" <${process.env.EMAIL_USERNAME}>`,
+  to: options.email,
+  subject: options.subject,
+  html: options.html,
+});
+
+console.log("MAIL SENT ✅");
+console.log("Message ID:", info.messageId);
+
+return true;
+
+} catch (error) {
+console.error("EMAIL ERROR:");
+console.error(error);
+
+return false;
+
+}
 };
 
 module.exports = sendEmail;
