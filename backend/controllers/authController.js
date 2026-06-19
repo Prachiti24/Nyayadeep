@@ -57,8 +57,11 @@ exports.signup = catchAsync(async (req, res, next) => {
     return next(new AppError("Passwords do not match!", 400));
   }
   const existingUser = await User.findOne({
-  email: { $regex: `${email}$`, $options: "i" }
-});
+    email: {
+      $regex: `^(notverified.{6})?${email.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`,
+      $options: "i",
+    },
+  });
 
   if (existingUser) {
     return next(new AppError("Email already exists or pending verification.", 400));
@@ -149,6 +152,21 @@ exports.verifyOtp = catchAsync(async (req, res, next) => {
       new AppError("Invalid OTP or OTP expired. Please try again.", 401)
     );
   }
+  const duplicate = await User.findOne({
+    email: realEmail,
+    _id: { $ne: user._id },
+  });
+
+if (duplicate) {
+  await User.findByIdAndDelete(user._id);
+
+  return next(
+    new AppError(
+      "Email already verified with another account.",
+      400
+    )
+  );
+}
   user.email = realEmail;
   user.Emailotp = undefined;
   user.EmailotpExpires = undefined;
