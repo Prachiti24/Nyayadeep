@@ -56,12 +56,13 @@ exports.signup = catchAsync(async (req, res, next) => {
   if (password !== passwordConfirm) {
     return next(new AppError("Passwords do not match!", 400));
   }
-  const existingUser = await User.findOne({ email });
+  const existingUser = await User.findOne({
+  email: { $regex: `${email}$`, $options: "i" }
+});
 
   if (existingUser) {
-    return next(new AppError("Duplicate Email Found.", 401));
+    return next(new AppError("Email already exists or pending verification.", 400));
   }
-
   const Emailotp = Math.floor(100000 + Math.random() * 900000).toString();
   const hashedOtp = crypto.createHash("sha256").update(Emailotp).digest("hex");
 
