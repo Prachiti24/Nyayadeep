@@ -34,14 +34,15 @@ const sendEmail = async (options) => {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
+
       auth: {
         user: process.env.EMAIL_USERNAME,
         pass: process.env.EMAIL_PASSWORD,
       },
 
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-      socketTimeout: 15000,
+      tls: {
+        rejectUnauthorized: false,
+      },
     });
 
     const info = await transporter.sendMail({
@@ -51,13 +52,12 @@ const sendEmail = async (options) => {
       html: options.html,
     });
 
-    console.log("Mail sent:", info.messageId);
+    console.log("Mail sent:", info.response);
 
     return true;
 
-  } catch (err) {
-    console.error("EMAIL ERROR:", err);
-
+  } catch (error) {
+    console.error("EMAIL ERROR:", error);
     return false;
   }
 };
