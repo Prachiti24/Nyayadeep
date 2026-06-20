@@ -33,8 +33,6 @@ const nodemailer = require("nodemailer");
 const sendEmail = async (options) => {
   try {
 
-    console.log("EMAIL_USERNAME =", process.env.EMAIL_USERNAME);
-
     const transporter = nodemailer.createTransport({
       host: "smtp-relay.brevo.com",
       port: 587,
@@ -44,12 +42,20 @@ const sendEmail = async (options) => {
         user: process.env.EMAIL_USERNAME,
         pass: process.env.EMAIL_PASSWORD,
       },
+
+      connectionTimeout: 30000,
+      greetingTimeout: 30000,
+      socketTimeout: 30000,
     });
 
     console.log("Connecting Brevo SMTP...");
 
+    await transporter.verify();
+
+    console.log("SMTP Connected ✅");
+
     const info = await transporter.sendMail({
-      from: `"Nyayadeep" <${process.env.EMAIL_USERNAME}>`,
+      from: `"Nyayadeep" <prachititelsinge@gmail.com>`, // ← your VERIFIED sender
       to: options.email,
       subject: options.subject,
       html: options.html,
