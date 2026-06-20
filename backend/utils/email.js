@@ -72,7 +72,7 @@ const sendEmail = async (options) => {
 
 
 
-    await transporter.verify();
+   // await transporter.verify();
 
 
 
