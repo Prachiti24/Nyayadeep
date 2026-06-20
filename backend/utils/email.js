@@ -32,25 +32,21 @@ const nodemailer = require("nodemailer");
 
 const sendEmail = async (options) => {
   try {
+
     console.log("EMAIL_USERNAME =", process.env.EMAIL_USERNAME);
-    console.log("EMAIL_PASSWORD exists =", !!process.env.EMAIL_PASSWORD);
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
+      host: "smtp-relay.brevo.com",
+      port: 587,
+      secure: false,
 
       auth: {
         user: process.env.EMAIL_USERNAME,
         pass: process.env.EMAIL_PASSWORD,
       },
-
-      connectionTimeout: 120000,
-      greetingTimeout: 120000,
-      socketTimeout: 120000,
     });
 
-    console.log("Connecting SMTP...");
+    console.log("Connecting Brevo SMTP...");
 
     const info = await transporter.sendMail({
       from: `"Nyayadeep" <${process.env.EMAIL_USERNAME}>`,
@@ -60,13 +56,14 @@ const sendEmail = async (options) => {
     });
 
     console.log("MAIL SENT ✅");
-    console.log(info.response);
+    console.log(info.messageId);
 
     return true;
 
   } catch (error) {
-    console.error("EMAIL ERROR:");
-    console.error(error);
+
+    console.log("EMAIL ERROR:");
+    console.log(error);
 
     return false;
   }
